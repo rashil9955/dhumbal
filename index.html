@@ -1,9 +1,19 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Dhumbal Table</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Yatra+One&display=swap">
 <style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+
 /* Layout: one oxblood felt table with a dhaka-weave rim, controls beneath, tips at the foot. Single dark look by choice. */
 :root{
   --ink:#1a0709;
@@ -16,6 +26,7 @@
   --marigold:#f2a516;
   --marigold-deep:#c97f06;
   --vermilion:#d4352e;
+  --leaf:#5fbf6a;
   --card:#fbf6ec;
   --card-ink:#1d1515;
   --card-red:#b3202a;
@@ -30,14 +41,14 @@ html,body{background:var(--ink);color:var(--cream)}
 body{font-family:var(--font-body);font-size:15px;line-height:1.5}
 .wrap{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
 button{font:inherit;color:inherit}
-button:focus-visible,select:focus-visible,.card:focus-visible{outline:2px solid var(--marigold);outline-offset:3px}
+button:focus-visible,select:focus-visible,input:focus-visible,.card:focus-visible{outline:2px solid var(--marigold);outline-offset:3px}
 
 /* header */
 .top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;margin-bottom:18px}
 .brand{display:flex;align-items:baseline;gap:12px}
 h1{font-family:var(--font-display);font-weight:400;font-size:clamp(38px,6vw,56px);line-height:1;margin:0;color:var(--marigold)}
 .dev{font-size:22px;color:var(--muted)}
-.tag{margin:4px 0 0;color:var(--muted);max-width:44ch}
+.tag{margin:4px 0 0;color:var(--muted);max-width:48ch}
 .tag b{color:var(--cream)}
 
 /* buttons */
@@ -55,8 +66,11 @@ button:active:not(:disabled){transform:scale(.97)}
 .setup{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px}
 @media (max-width:760px){.setup{grid-template-columns:minmax(0,1fr)}}
 .setup-card,.howto,.panel{background:var(--panel);border:1px solid var(--panel-line);border-radius:18px;padding:22px}
-.setup-card h2,.howto h3,.panel h3,.tips h2{font-family:var(--font-display);font-weight:400;margin:0 0 14px;text-wrap:balance}
+.setup-card h2,.howto h3,.panel h3,.tips h2,.lobby h3{font-family:var(--font-display);font-weight:400;margin:0 0 14px;text-wrap:balance}
 .setup-card h2{font-size:26px}
+.modes{display:flex;flex-wrap:wrap;gap:4px;background:var(--felt-deep);border:1px solid var(--panel-line);border-radius:999px;padding:4px;margin-bottom:20px;width:fit-content;max-width:100%}
+.modes button{border:0;background:transparent;border-radius:999px;padding:8px 16px;font-weight:600;cursor:pointer;color:var(--muted);transition:background .2s,color .2s}
+.modes button[aria-pressed="true"]{background:var(--marigold);color:var(--ink)}
 .counts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
 @media (max-width:520px){.counts{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .count{background:var(--felt-deep);border:1px solid var(--panel-line);border-radius:14px;padding:14px 8px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:border-color .2s,background .2s,transform .2s}
@@ -68,16 +82,41 @@ button:active:not(:disabled){transform:scale(.97)}
 .dots i{width:7px;height:7px;border-radius:50%;background:var(--muted);opacity:.6}
 .dots i:first-child{background:var(--marigold);opacity:1}
 .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
-@media (max-width:520px){.opts{grid-template-columns:minmax(0,1fr)}}
-.opts label{display:flex;flex-direction:column;gap:6px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--panel-line);border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;text-transform:none;letter-spacing:0}
+.opts.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:520px){.opts,.opts.three{grid-template-columns:minmax(0,1fr)}}
+.opts label,.field{display:flex;flex-direction:column;gap:6px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+select,input[type="text"]{background:var(--felt-deep);color:var(--cream);border:1px solid var(--panel-line);border-radius:10px;padding:9px 10px;font:inherit;font-size:16px;text-transform:none;letter-spacing:0;min-width:0}
 .note{color:var(--muted);font-size:13px;margin:14px 0 18px}
+.msg{min-height:1.5em;font-size:14px;margin:14px 0 0;color:var(--muted)}
+.msg.err{color:#ffb4a8}
+.online-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+@media (max-width:520px){.online-grid{grid-template-columns:minmax(0,1fr)}}
+.online-box{background:var(--felt-deep);border:1px solid var(--panel-line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.online-box h3{font-family:var(--font-display);font-weight:400;font-size:19px;margin:0}
+.online-box p{margin:0;color:var(--muted);font-size:13px}
+.join-row{display:flex;gap:8px;width:100%}
+.join-row input{flex:1;width:0;text-transform:uppercase;letter-spacing:.25em;font-weight:600}
 .howto h3{font-size:20px}
 .howto ol{margin:0;padding-left:20px;display:grid;gap:10px}
 .howto li::marker{color:var(--marigold);font-weight:700}
 .values{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px}
 .values span{background:var(--card);color:var(--card-ink);border-radius:6px;padding:2px 7px;font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
 .values span em{font-style:normal;color:#7a6a64;font-weight:500;margin-left:3px}
+
+/* lobby */
+.lobby{max-width:640px;margin:0 auto}
+.eyebrow{margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold)}
+.code{font-family:var(--font-display);font-size:clamp(52px,13vw,76px);line-height:1.05;letter-spacing:.14em;color:var(--marigold);margin:2px 0 10px}
+.share{display:flex;gap:8px;margin-bottom:22px}
+.share input{flex:1;width:0;font-size:14px;color:var(--muted)}
+.lobby h3{font-size:20px;margin-bottom:10px}
+#lobbyPlayers{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:8px}
+#lobbyPlayers li{display:flex;align-items:center;gap:10px;background:var(--felt-deep);border:1px solid var(--panel-line);border-radius:12px;padding:10px 14px;min-width:0}
+#lobbyPlayers .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--leaf);flex:none}
+.dot.off{background:var(--muted);opacity:.45}
+.pill{margin-left:auto;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);flex:none}
+.lobby-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
 
 /* table */
 .table{position:relative;height:clamp(470px,64vh,620px);border-radius:28px;border:9px solid transparent;overflow:hidden;
@@ -89,7 +128,8 @@ select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--pan
   box-shadow:0 20px 50px rgba(0,0,0,.5), inset 0 0 80px rgba(0,0,0,.45)}
 #cards,#seats{position:absolute;inset:0}
 .card{position:absolute;left:0;top:0;width:var(--cw,70px);height:var(--ch,98px);perspective:700px;transform-origin:50% 50%;
-  transition:transform .5s cubic-bezier(.22,.9,.25,1);will-change:transform}
+  transition:transform .5s cubic-bezier(.22,.9,.25,1),opacity .3s ease;will-change:transform}
+.card.gone{opacity:0;pointer-events:none}
 .card .inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.4,.2,.2,1)}
 .card.down .inner{transform:rotateY(180deg)}
 .face,.back{position:absolute;inset:0;border-radius:calc(var(--cw,70px)*.11);backface-visibility:hidden;-webkit-backface-visibility:hidden}
@@ -101,8 +141,6 @@ select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--pan
 .court{font-family:var(--font-display);font-size:calc(var(--cw,70px)*.52);line-height:1;display:flex;flex-direction:column;align-items:center}
 .court small{font-family:var(--font-body);font-size:calc(var(--cw,70px)*.15);font-weight:600;opacity:.6;margin-top:2px}
 .back{transform:rotateY(180deg);box-shadow:0 2px 6px rgba(0,0,0,.4);
-  background:
-    linear-gradient(var(--weave-light),var(--weave-light)) padding-box;
   border:calc(var(--cw,70px)*.06) solid var(--weave-light);
   background-image:
     repeating-linear-gradient(45deg,var(--weave-red) 0 3px,transparent 3px 8px),
@@ -128,7 +166,6 @@ select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--pan
 #result.on{background:rgba(20,5,8,.72)}
 .res-card{background:var(--panel);border:1px solid var(--panel-line);border-radius:18px;padding:20px 22px;width:min(460px,100%);max-height:100%;overflow:auto;transform:translateY(16px);opacity:0;transition:transform .4s cubic-bezier(.2,.9,.3,1),opacity .35s}
 #result.on .res-card{transform:none;opacity:1}
-.eyebrow{margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold)}
 .res-card h2{font-family:var(--font-display);font-weight:400;font-size:24px;line-height:1.2;margin:4px 0 14px;text-wrap:balance}
 .res{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums;margin-bottom:16px}
 .res th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500;text-align:left;padding:4px 6px;border-bottom:1px solid var(--panel-line)}
@@ -137,7 +174,8 @@ select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--pan
 .res .hand{display:block;font-size:12px;color:var(--muted)}
 .res tr.win td:first-child{color:var(--marigold);font-weight:600}
 .res .tag-out{font-size:11px;background:var(--vermilion);border-radius:6px;padding:0 6px;margin-left:4px}
-.res-actions{display:flex;gap:10px;flex-wrap:wrap}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.res-actions p{margin:0;color:var(--muted)}
 
 /* action bar */
 .bar{display:flex;align-items:center;gap:12px 18px;flex-wrap:wrap;margin:14px 0 18px;padding:12px 16px;background:var(--panel);border:1px solid var(--panel-line);border-radius:16px}
@@ -151,7 +189,8 @@ select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--pan
 @media (max-width:700px){.lower{grid-template-columns:minmax(0,1fr)}}
 .panel h3{font-size:19px;margin-bottom:10px}
 #scores{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-#scores li{display:grid;grid-template-columns:72px minmax(0,1fr) 40px;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+#scores li{display:grid;grid-template-columns:88px minmax(0,1fr) 40px;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+#scores .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #scores li.turn .nm{color:var(--marigold);font-weight:600}
 #scores li.out{opacity:.4}
 #scores .track{height:6px;background:var(--felt-deep);border-radius:4px;overflow:hidden}
@@ -169,48 +208,78 @@ select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--pan
 .tip-group{background:var(--panel);border:1px solid var(--panel-line);border-radius:16px;padding:18px 20px}
 .tip-group h3{margin:0 0 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-weight:600}
 .tip-group ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
-.tip-group li{padding-left:16px;position:relative;max-width:62ch}
+.tip-group li{padding-left:16px;position:relative;max-width:62ch;color:var(--muted)}
 .tip-group li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;transform:rotate(45deg);background:var(--vermilion)}
 .tip-group b{color:var(--cream)}
-.tip-group li{color:var(--muted)}
 
 @media (prefers-reduced-motion:reduce){
   .card,.card .inner,#banner,.res-card{transition-duration:.01s !important}
   .card.pick .face,.card.pick.down .back{animation:none;box-shadow:0 0 0 3px var(--marigold)}
 }
 </style>
-
+</head>
+<body>
 <div class="wrap">
   <header class="top">
     <div>
       <div class="brand"><h1>Dhumbal</h1><span class="dev" lang="ne">धुम्बल</span></div>
-      <p class="tag">Five cards each. Lowest total wins the round. Call <b>Show</b> when you think nobody can beat you.</p>
+      <p class="tag">Five cards each. Lowest total wins the round. Call <b>Show</b> when you think nobody can beat you. Play against bots, or online with friends.</p>
     </div>
     <button id="newBtn" class="ghost" hidden>Change players</button>
   </header>
 
   <section id="setup" class="setup">
     <div class="setup-card">
-      <h2>How many at the table?</h2>
-      <div class="counts" id="counts"></div>
-      <div class="opts">
-        <label for="target">Out at score
-          <select id="target">
-            <option value="50">50 points (quick)</option>
-            <option value="100" selected>100 points</option>
-            <option value="200">200 points (long)</option>
-          </select>
-        </label>
-        <label for="limit">Show allowed when hand is
-          <select id="limit">
-            <option value="99">Any total</option>
-            <option value="10" selected>10 or less</option>
-            <option value="7">7 or less</option>
-          </select>
-        </label>
+      <div class="modes" role="group" aria-label="Game mode">
+        <button type="button" data-mode="solo" aria-pressed="true">Play vs bots</button>
+        <button type="button" data-mode="online" aria-pressed="false">Play online with friends</button>
       </div>
-      <p class="note">A wrong Show costs your hand total plus 25. The player who caught you scores 0.</p>
-      <button id="startBtn" class="primary">Deal the cards</button>
+
+      <div id="soloPane">
+        <h2>How many at the table?</h2>
+        <div class="counts" id="counts"></div>
+        <div class="opts">
+          <label for="target">Out at score
+            <select id="target">
+              <option value="50">50 points (quick)</option>
+              <option value="100" selected>100 points</option>
+              <option value="200">200 points (long)</option>
+            </select>
+          </label>
+          <label for="limit">Show allowed when hand is
+            <select id="limit">
+              <option value="99">Any total</option>
+              <option value="10" selected>10 or less</option>
+              <option value="7">7 or less</option>
+            </select>
+          </label>
+        </div>
+        <p class="note">A wrong Show costs your hand total plus 25. The player who caught you scores 0.</p>
+        <button id="startBtn" class="primary">Deal the cards</button>
+      </div>
+
+      <div id="onlinePane" hidden>
+        <h2>Play with friends anywhere</h2>
+        <label class="field" for="nameIn">Your name
+          <input type="text" id="nameIn" maxlength="14" autocomplete="nickname" placeholder="e.g. Rashil">
+        </label>
+        <div class="online-grid">
+          <div class="online-box">
+            <h3>Start a table</h3>
+            <p>You get a 4-letter code to send your friends. Your browser runs the game, so keep this tab open.</p>
+            <button id="createBtn" class="primary">Create table</button>
+          </div>
+          <div class="online-box">
+            <h3>Join a table</h3>
+            <p>Enter the code your friend sent you.</p>
+            <div class="join-row">
+              <input type="text" id="codeIn" maxlength="4" placeholder="CODE" aria-label="Table code" autocomplete="off" autocapitalize="characters">
+              <button id="joinBtn" class="primary">Join</button>
+            </div>
+          </div>
+        </div>
+        <p id="onlineMsg" class="msg" aria-live="polite"></p>
+      </div>
     </div>
     <div class="howto">
       <h3>A turn, in order</h3>
@@ -221,6 +290,46 @@ select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--pan
       </ol>
       <div class="values" aria-label="Card values">
         <span>A<em>1</em></span><span>2–10<em>face</em></span><span>J<em>11</em></span><span>Q<em>12</em></span><span>K<em>13</em></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="lobby" hidden>
+    <div class="setup-card lobby">
+      <p class="eyebrow">Table code</p>
+      <div class="code" id="roomCode">----</div>
+      <div class="share">
+        <input type="text" id="shareLink" readonly aria-label="Invite link">
+        <button id="copyBtn" class="ghost">Copy link</button>
+      </div>
+      <h3>At the table</h3>
+      <ul id="lobbyPlayers"></ul>
+      <div id="hostOpts">
+        <div class="opts three">
+          <label for="lBots">Bots
+            <select id="lBots"></select>
+          </label>
+          <label for="lTarget">Out at score
+            <select id="lTarget">
+              <option value="50">50 (quick)</option>
+              <option value="100">100</option>
+              <option value="200">200 (long)</option>
+            </select>
+          </label>
+          <label for="lLimit">Show allowed at
+            <select id="lLimit">
+              <option value="99">Any total</option>
+              <option value="10">10 or less</option>
+              <option value="7">7 or less</option>
+            </select>
+          </label>
+        </div>
+        <p class="note" id="lHint"></p>
+      </div>
+      <p class="note" id="lobbyWait" hidden></p>
+      <div class="lobby-actions">
+        <button id="lStart" class="primary">Deal the cards</button>
+        <button id="leaveBtn" class="ghost">Leave table</button>
       </div>
     </div>
   </section>
@@ -289,12 +398,14 @@ select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--pan
   </section>
 </div>
 
+<script src="firebase-config.js"></script>
 <script>
 (() => {
 const $ = s => document.querySelector(s);
 const SUITS = ['♠','♥','♦','♣'];
-const BOT_NAMES = ['Bishal','Sita','Hari','Maya','Pasang'];
+const BOT_NAMES = ['Bishal','Sita','Hari','Maya','Pasang','Kamala','Dipesh'];
 const PENALTY = 25;
+const FB_SDK = ['app','auth','database'].map(m => `https://www.gstatic.com/firebasejs/10.12.2/firebase-${m}-compat.js`);
 const rankOf = id => id % 13 + 1;
 const suitOf = id => Math.floor(id / 13);
 const LBL = r => ({1:'A',11:'J',12:'Q',13:'K'})[r] || String(r);
@@ -305,6 +416,12 @@ const sum = h => h.reduce((a, i) => a + rankOf(i), 0);
 const byRank = (a, b) => rankOf(a) - rankOf(b) || suitOf(a) - suitOf(b);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const jit = n => { const x = Math.sin(n * 91.7 + 3.1) * 10000; return (x - Math.floor(x)) * 2 - 1; };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const cleanName = s => String(s || '').replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 14);
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch {} }
+};
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
 /* ---------- rules ---------- */
@@ -369,23 +486,41 @@ function botWantsShow(pi){
   return t <= Math.max(2, risk);
 }
 
-/* ---------- state ---------- */
-const G = { players: [], deck: [], discard: [], last: [], lastRun: false, pending: [], pendingRun: false,
-  turn: 0, phase: 'idle', reveal: false, wiggle: false, sel: new Set(), token: 0, round: 0, target: 100, limit: 10, n: 4, log: [] };
+/* ---------- state ----------
+   G lives only in the host's browser (or yours, in solo play): the full game, every hand and the deck.
+   VIEW is the public picture every screen draws from; MYHAND is the only hand this screen may see. */
+let G = null, HT = 0;
+let VIEW = null, MYHAND = [];
+const NET = { mode: 'solo', uid: 'me', code: null, ref: null, meta: null, players: {}, subs: [] };
+let screen = 'setup', sel = new Set(), localStatus = null, awaiting = false, awaitTimer = 0, awayTimer = 0;
 
-/* ---------- card elements ---------- */
+const myIdx = () => VIEW ? Math.max(0, VIEW.players.findIndex(p => p.uid === NET.uid)) : 0;
+const D = pi => pi === myIdx() ? 'You' : (VIEW.players[pi] ? VIEW.players[pi].name : '?');
+const fmt = e => e ? e.t.replace(/\{(\d)\}/g, (_, k) => D(e.p[k])) : '';
+
+/* ---------- card elements ----------
+   52 real cards (always face up when visible) plus face-down stand-ins for the deck
+   and for opponents' hands, whose cards this screen is not allowed to know. */
 const table = $('#table'), layer = $('#cards'), seatsEl = $('#seats');
-const els = [];
+const els = [], dk = [], hd = [];
+const BACK = '<div class="inner"><div class="face"></div><div class="back"></div></div>';
+function mk(kind, html, label){
+  const d = document.createElement('div');
+  d.className = 'card gone' + (kind === 'real' ? '' : ' down');
+  d.dataset.kind = kind;
+  d.setAttribute('aria-label', label);
+  d.innerHTML = html;
+  layer.appendChild(d);
+  return d;
+}
 for (let id = 0; id < 52; id++){
   const r = rankOf(id), s = SUITS[suitOf(id)], l = LBL(r);
   const center = r > 10 ? `<span class="court">${l}<small>${r}</small></span>` : `<span>${s}</span>`;
-  const d = document.createElement('div');
-  d.className = 'card down';
-  d.dataset.id = id;
-  d.setAttribute('aria-label', cardText(id));
-  d.innerHTML = `<div class="inner"><div class="face ${isRed(id) ? 'red' : ''}"><div class="corner">${l}<br>${s}</div><div class="pip">${center}</div><div class="corner br">${l}<br>${s}</div></div><div class="back"></div></div>`;
-  layer.appendChild(d); els.push(d);
+  const el = mk('real', `<div class="inner"><div class="face ${isRed(id) ? 'red' : ''}"><div class="corner">${l}<br>${s}</div><div class="pip">${center}</div><div class="corner br">${l}<br>${s}</div></div><div class="back"></div></div>`, cardText(id));
+  el.dataset.id = id; els.push(el);
 }
+for (let i = 0; i < 52; i++) dk.push(mk('deck', BACK, 'Deck'));
+for (let i = 0; i < 36; i++) hd.push(mk('hand', BACK, 'Face-down card'));
 
 let CW = 70, CH = 98, W = 0, H = 0;
 function measure(){
@@ -395,111 +530,284 @@ function measure(){
   table.style.setProperty('--cw', CW + 'px');
   table.style.setProperty('--ch', CH + 'px');
 }
-function pos(id, cx, cy, rot, sc, z, down, cls){
-  const el = els[id];
-  el.style.transform = `translate(${(cx - CW/2).toFixed(1)}px,${(cy - CH/2).toFixed(1)}px) rotate(${rot.toFixed(1)}deg) scale(${sc})`;
-  el.style.zIndex = z;
-  el.classList.toggle('down', down);
-  if (cls) cls.forEach(c => el.classList.add(c));
+function applyT(el, t){
+  el.style.transform = `translate(${(t.x - CW/2).toFixed(1)}px,${(t.y - CH/2).toFixed(1)}px) rotate(${t.r.toFixed(1)}deg) scale(${t.s})`;
+  el.style.zIndex = t.z;
+  el.classList.toggle('down', t.down);
 }
 function seatPos(pi){
-  const k = G.players.length - 1;
-  const t = k === 1 ? 0.5 : (pi - 1) / (k - 1);
+  const n = VIEW.players.length, k = n - 1, rel = (pi - myIdx() + n) % n;
+  const t = k === 1 ? 0.5 : (rel - 1) / (k - 1);
   const s = 0.58;
   return { x: W * (0.13 + 0.74 * t), y: 14 + CH * s / 2 + (1 - Math.sin(Math.PI * (0.12 + 0.76 * t))) * H * 0.15, s };
 }
 
+let shown = new Set();
+const lastT = new Map();
 function layout(){
-  if (!W || $('#game').hidden) measure();
+  const S = VIEW, me = myIdx(), mine = S.players[me];
   measure();
-  els.forEach(el => { el.classList.remove('sel','pick','mine'); el.removeAttribute('tabindex'); el.removeAttribute('role'); });
-  const myTurn = G.turn === 0 && !G.players[0]?.out;
-  const drawing = myTurn && G.phase === 'draw';
+  const myTurn = S.turn === me && mine && !mine.out && !S.away.includes(me) && !awaiting;
+  const throwing = myTurn && S.phase === 'throw', drawing = myTurn && S.phase === 'draw';
+  const pickable = drawing ? pickableOf(S.last, S.lastRun) : [];
+  const T = new Map();
+  const put = (el, x, y, r, s, z, down, cls) => T.set(el, { x, y, r, s, z, down, cls });
 
   // deck
   const dx = W / 2 - CW * 0.85, dy = H * 0.47;
-  G.deck.forEach((id, i) => {
+  for (let i = 0; i < S.deckCount; i++){
     const o = Math.min(i, 12) * 0.35;
     let x = dx - o, y = dy - o, r = 0;
-    if (G.wiggle){ x += (Math.random() - .5) * CW * .7; y += (Math.random() - .5) * CW * .3; r = (Math.random() - .5) * 24; }
-    pos(id, x, y, r, 1, 10 + i, true, drawing && i === G.deck.length - 1 ? ['pick'] : null);
-  });
-  // discard
+    if (S.wiggle){ x += (Math.random() - .5) * CW * .7; y += (Math.random() - .5) * CW * .3; r = (Math.random() - .5) * 24; }
+    put(dk[i], x, y, r, 1, 10 + i, true, drawing && i === S.deckCount - 1 ? ['pick'] : null);
+  }
+  const to = Math.min(Math.max(S.deckCount - 1, 0), 12) * 0.35;
+  const top = { x: dx - to, y: dy - to, r: 0, s: 1, down: true };
+  // discard, last throw, the throw in progress
   const px = W / 2 + CW * 0.75, py = dy;
-  G.discard.forEach((id, i) => pos(id, px + jit(id) * 4, py + jit(id + 7) * 4, jit(id + 3) * 10, 1, 100 + i, false));
-  const pickable = drawing ? pickableOf(G.last, G.lastRun) : [];
+  S.discard.forEach((id, i) => put(els[id], px + jit(id) * 4, py + jit(id + 7) * 4, jit(id + 3) * 10, 1, 100 + i, false));
   const fan = (ids, cx, cy, z, step) => ids.forEach((id, i) => {
     const off = (i - (ids.length - 1) / 2);
-    pos(id, cx + off * step, cy, off * 4, 1, z + i, false, pickable.includes(id) ? ['pick'] : null);
+    put(els[id], cx + off * step, cy, off * 4, 1, z + i, false, pickable.includes(id) ? ['pick'] : null);
   });
-  fan(G.last, px, py - CH * 0.06, 200, CW * 0.34);
-  fan(G.pending, px + CW * 0.18, py + CH * 0.3, 300, CW * 0.34);
+  fan(S.last, px, py - CH * 0.06, 200, CW * 0.34);
+  fan(S.pending, px + CW * 0.18, py + CH * 0.3, 300, CW * 0.34);
 
   $('#deckLbl').style.left = dx + 'px'; $('#deckLbl').style.top = (dy + CH / 2 + 8) + 'px';
   $('#throwLbl').style.left = px + 'px'; $('#throwLbl').style.top = (py - CH * 0.06 - CH / 2 - 20) + 'px';
   $('#throwLbl').textContent = drawing ? 'Take one' : 'Last throw';
 
   // hands
-  G.players.forEach((p, pi) => {
-    if (p.human){
-      const h = [...p.hand].sort(byRank), n = h.length;
+  S.players.forEach((p, pi) => {
+    if (pi === me){
+      const h = [...MYHAND].sort(byRank), n = h.length;
       const step = n > 1 ? Math.min(CW * 0.82, (W - 140 - CW) / (n - 1)) : 0;
       h.forEach((id, i) => {
         const off = i - (n - 1) / 2;
         let cy = H - CH / 2 - 14 + off * off * 1.6;
-        const sel = G.sel.has(id);
-        if (sel) cy -= CH * 0.22;
-        pos(id, W / 2 + off * step + 30, cy, off * 3.5, 1, 500 + i, false, sel ? ['sel'] : null);
-        if (myTurn && G.phase === 'throw'){ els[id].classList.add('mine'); els[id].tabIndex = 0; els[id].setAttribute('role','button'); }
+        const on = sel.has(id);
+        if (on) cy -= CH * 0.22;
+        const cls = []; if (on) cls.push('sel'); if (throwing) cls.push('mine');
+        put(els[id], W / 2 + off * step + 30, cy, off * 3.5, 1, 500 + i, false, cls);
       });
     } else {
-      const sp = seatPos(pi), h = G.reveal ? [...p.hand].sort(byRank) : p.hand, n = h.length;
-      const sc = G.reveal ? 0.66 : sp.s, step = CW * (G.reveal ? 0.46 : 0.24);
-      h.forEach((id, i) => {
-        const off = i - (n - 1) / 2;
-        pos(id, sp.x + off * step, sp.y + Math.abs(off) * 2, off * (G.reveal ? 3 : 7), sc, 400 + pi * 10 + i, !G.reveal);
-      });
+      const sp = seatPos(pi);
+      if (p.hand){
+        const n = p.hand.length, step = CW * 0.46;
+        p.hand.forEach((id, i) => { const off = i - (n - 1) / 2; put(els[id], sp.x + off * step, sp.y + Math.abs(off) * 2, off * 3, 0.66, 400 + pi * 10 + i, false); });
+      } else {
+        const n = Math.min(p.count, 6), step = CW * 0.24;
+        for (let i = 0; i < n; i++){ const off = i - (n - 1) / 2; put(hd[pi * 6 + i], sp.x + off * step, sp.y + Math.abs(off) * 2, off * 7, sp.s, 400 + pi * 10 + i, true); }
+      }
     }
   });
-  pickable.forEach(id => { els[id].tabIndex = 0; els[id].setAttribute('role','button'); });
-  if (drawing && G.deck.length){ const t = G.deck[G.deck.length - 1]; els[t].tabIndex = 0; els[t].setAttribute('role','button'); }
+
+  // Cards that just appeared start from where they plausibly came from, then glide into place.
+  const vanished = [...shown].filter(el => !T.has(el) && el.dataset.kind !== 'hand');
+  const fresh = [...T.keys()].filter(el => !shown.has(el));
+  fresh.forEach(el => {
+    const t = T.get(el); let o;
+    if (el.dataset.kind === 'hand'){
+      const v = vanished.length && lastT.get(vanished[0]);
+      o = v ? { ...v, z: t.z, down: true } : { ...top, z: t.z };
+    } else if (el.dataset.kind === 'deck'){
+      o = { ...t };
+    } else {
+      const id = +el.dataset.id;
+      if (S.pending.includes(id) && S.turn !== me){ const sp = seatPos(S.turn); o = { x: sp.x, y: sp.y, r: 0, s: sp.s, z: t.z, down: true }; }
+      else if (!MYHAND.includes(id) && S.players.some((p, pi) => pi !== me && p.hand && p.hand.includes(id))) o = { ...t, down: true };
+      else o = { ...top, z: t.z };
+    }
+    el.style.transition = 'none'; el.firstChild.style.transition = 'none';
+    applyT(el, o);
+  });
+  if (fresh.length){ void layer.offsetWidth; fresh.forEach(el => { el.style.transition = ''; el.firstChild.style.transition = ''; }); }
+
+  [...els, ...dk, ...hd].forEach(el => { el.classList.remove('sel','pick','mine'); el.removeAttribute('tabindex'); el.removeAttribute('role'); });
+  T.forEach((t, el) => {
+    applyT(el, t); el.classList.remove('gone'); lastT.set(el, t);
+    if (t.cls && t.cls.length){ el.classList.add(...t.cls); if (t.cls.includes('mine') || t.cls.includes('pick')){ el.tabIndex = 0; el.setAttribute('role','button'); } }
+  });
+  shown.forEach(el => { if (!T.has(el)) el.classList.add('gone'); });
+  shown = new Set(T.keys());
   updateSeats();
-  updateUI();
 }
 
+function isAway(p){ return NET.mode !== 'solo' && !p.bot && p.uid !== NET.uid && !(NET.players[p.uid] && NET.players[p.uid].online); }
+
 function updateSeats(){
-  G.players.forEach((p, pi) => {
-    const el = seatsEl.children[pi]; if (!el) return;
-    const tot = G.reveal && !p.out ? `<span class="tot">${sum(p.hand)}</span>` : '';
-    el.className = 'seat' + (p.human ? ' me' : '') + (pi === G.turn && ['throw','draw','bot','wait'].includes(G.phase) ? ' turn' : '') + (p.out ? ' out' : '');
-    el.innerHTML = `<b>${p.name}${tot}</b><span class="sc">${p.out ? 'out' : p.score + ' pts' + (p.human ? '' : ' · ' + p.hand.length + ' cards')}</span>`;
-    if (p.human){ el.style.left = '10px'; el.style.top = (H - 52) + 'px'; }
-    else { const sp = seatPos(pi); el.style.left = sp.x + 'px'; el.style.top = (sp.y + CH * (G.reveal ? .66 : sp.s) / 2 + 8) + 'px'; }
+  const S = VIEW, me = myIdx();
+  while (seatsEl.children.length < S.players.length) seatsEl.appendChild(document.createElement('div'));
+  while (seatsEl.children.length > S.players.length) seatsEl.lastChild.remove();
+  S.players.forEach((p, pi) => {
+    const el = seatsEl.children[pi], isMe = pi === me;
+    const total = isMe ? sum(MYHAND) : p.hand ? sum(p.hand) : null;
+    const tot = S.reveal && !p.out && total !== null ? `<span class="tot">${total}</span>` : '';
+    const bits = [p.out ? 'out' : p.score + ' pts'];
+    if (!isMe && !p.out) bits.push(p.count + ' cards');
+    if (isAway(p)) bits.push('offline');
+    el.className = 'seat' + (isMe ? ' me' : '') + (pi === S.turn && ['throw','draw','wait'].includes(S.phase) ? ' turn' : '') + (p.out ? ' out' : '');
+    el.innerHTML = `<b>${esc(D(pi))}${tot}</b><span class="sc">${bits.join(' · ')}</span>`;
+    if (isMe){ el.style.left = '10px'; el.style.top = (H - 52) + 'px'; }
+    else { const sp = seatPos(pi); el.style.left = sp.x + 'px'; el.style.top = (sp.y + CH * (S.reveal ? .66 : sp.s) / 2 + 8) + 'px'; }
   });
+}
+
+function statusText(){
+  if (localStatus) return localStatus;
+  const S = VIEW, me = myIdx(), p = S.players[S.turn], nm = p ? esc(p.name) : '';
+  const pre = NET.mode === 'client' && NET.meta && NET.meta.hostOnline === false
+    ? `${NET.meta.hostName} (the host) is offline. The game continues when they're back. ` : '';
+  if (awaiting) return 'Sending your move…';
+  switch (S.phase){
+    case 'deal': return pre + `Round ${S.round}. Dealing five cards each…`;
+    case 'throw':
+      if (S.turn === me && !S.away.includes(me)){
+        const t = sum(MYHAND);
+        return t <= S.limit ? `Your turn. You hold ${t}. Call Show if you think you're lowest, or throw.` : 'Your turn. Tap a card, a set, or a run of 3+ in one suit, then throw.';
+      }
+      return pre + (S.away.includes(S.turn) ? `${p.name} is offline, so a bot is playing their turn.` : p.bot ? `${p.name} is thinking…` : `Waiting for ${p.name} to play…`);
+    case 'draw':
+      if (S.turn === me) return S.lastRun ? 'Now take one card: the deck, or an end card of the glowing run.' : 'Now take one card: the top of the deck, or a glowing card from the last throw.';
+      return pre + `${p.name} throws ${cardsText(S.pending)}.`;
+    case 'wait': return pre + fmt(S.log[0]);
+    case 'show': return pre + `${D(S.caller)} called Show${S.reveal ? ' with ' + S.showTotal : ''}.`;
+    case 'result': return pre + fmt(S.result && S.result.head);
+  }
+  return pre;
 }
 
 function updateUI(){
-  const me = G.players[0]; if (!me) return;
-  $('#myTotal').textContent = sum(me.hand);
-  const myThrow = G.turn === 0 && G.phase === 'throw';
-  const sel = [...G.sel];
+  const S = VIEW, me = myIdx(), mine = S.players[me];
+  $('#myTotal').textContent = sum(MYHAND);
+  const myTurn = S.turn === me && mine && !mine.out && !S.away.includes(me) && !awaiting;
+  const myThrow = myTurn && S.phase === 'throw';
+  const ids = [...sel];
   const tb = $('#throwBtn');
-  tb.disabled = !myThrow || !isValid(sel);
-  tb.textContent = !myThrow ? 'Throw' : !sel.length ? 'Select cards' : isValid(sel) ? `Throw ${cardsText([...sel].sort(byRank))}` : 'Not a valid throw';
-  $('#showBtn').disabled = !myThrow || sum(me.hand) > G.limit;
-  $('#showBtn').title = sum(me.hand) > G.limit ? `Show unlocks at ${G.limit} or less` : 'Call Show';
-  $('#hintBtn').disabled = !(G.turn === 0 && (G.phase === 'throw' || G.phase === 'draw'));
-  $('#scores').innerHTML = G.players.map((p, i) => `<li class="${i === G.turn && G.phase !== 'idle' ? 'turn' : ''} ${p.out ? 'out' : ''}"><span class="nm">${p.name}</span><span class="track"><i style="width:${Math.min(100, p.score / G.target * 100)}%"></i></span><span class="pts">${p.score}</span></li>`).join('');
-  $('#targetNote').textContent = `Out at ${G.target}. Show allowed at ${G.limit >= 99 ? 'any total' : G.limit + ' or less'}. Round ${G.round}.`;
+  tb.disabled = !myThrow || !isValid(ids);
+  tb.textContent = !myThrow ? 'Throw' : !ids.length ? 'Select cards' : isValid(ids) ? `Throw ${cardsText([...ids].sort(byRank))}` : 'Not a valid throw';
+  $('#showBtn').disabled = !myThrow || sum(MYHAND) > S.limit;
+  $('#showBtn').title = sum(MYHAND) > S.limit ? `Show unlocks at ${S.limit} or less` : 'Call Show';
+  $('#hintBtn').disabled = !(myTurn && (S.phase === 'throw' || S.phase === 'draw'));
+  $('#scores').innerHTML = S.players.map((p, i) => `<li class="${i === S.turn && !['result','deal'].includes(S.phase) ? 'turn' : ''} ${p.out ? 'out' : ''}"><span class="nm" title="${esc(D(i))}">${esc(D(i))}</span><span class="track"><i style="width:${Math.min(100, p.score / S.target * 100)}%"></i></span><span class="pts">${p.score}</span></li>`).join('');
+  $('#targetNote').textContent = `Out at ${S.target}. Show allowed at ${S.limit >= 99 ? 'any total' : S.limit + ' or less'}. Round ${S.round}.` + (NET.mode !== 'solo' ? ` Table ${NET.code}.` : '');
+  $('#log').innerHTML = S.log.map(e => `<li>${esc(fmt(e))}</li>`).join('');
+  $('#status').textContent = statusText();
 }
-const setStatus = t => { $('#status').textContent = t; };
-function addLog(t){ G.log.unshift(t); G.log = G.log.slice(0, 7); $('#log').innerHTML = G.log.map(l => `<li>${l}</li>`).join(''); }
-let bannerTimer;
-function banner(t, ms = 1100){ const b = $('#banner'); b.textContent = t; b.classList.add('on'); clearTimeout(bannerTimer); bannerTimer = setTimeout(() => b.classList.remove('on'), ms); }
 
-/* ---------- flow ---------- */
+let bannerSeq = null, bannerTimer = 0;
+function renderBanner(){
+  const b = VIEW.banner;
+  if (!b || b.seq === bannerSeq) return;
+  bannerSeq = b.seq;
+  const el = $('#banner');
+  el.textContent = fmt(b); el.classList.add('on');
+  clearTimeout(bannerTimer); bannerTimer = setTimeout(() => el.classList.remove('on'), b.ms || 1100);
+}
+
+let resultKey = null;
+function hideResult(){ const r = $('#result'); r.classList.remove('on'); r.hidden = true; resultKey = null; }
+function renderResult(){
+  const S = VIEW, R = S.result;
+  if (S.phase !== 'result' || !R){ if (resultKey !== null) hideResult(); return; }
+  const key = S.round + ':' + R.over;
+  if (key === resultKey) return;
+  resultKey = key;
+  const me = myIdx(), boss = NET.mode !== 'client';
+  const body = R.rows.map(x => `<tr class="${x.pi === R.winIdx ? 'win' : ''}"><td>${esc(D(x.pi))}${x.justOut ? '<span class="tag-out">out</span>' : ''}<span class="hand">${cardsText(x.hand) || '—'}</span></td><td class="num">${x.t}</td><td class="num">+${x.pts}${R.caught && x.pi === R.caller ? ' <span class="hand">incl. 25</span>' : ''}</td><td class="num">${x.score}</td></tr>`).join('');
+  let eyebrow = `Round ${S.round}`, title = esc(fmt(R.head)), actions;
+  if (R.over){
+    const ranked = S.players.map((p, i) => ({ p, i })).sort((a, b) => (a.p.out - b.p.out) || (a.p.score - b.p.score));
+    const champ = ranked[0].i;
+    eyebrow = 'Game over';
+    title = (champ === me ? 'You win the table!' : S.players[me].out ? `You're out. ${esc(D(champ))} leads the table.` : `${esc(D(champ))} wins the table.`)
+      + ` <span class="hand" style="display:block;font-family:var(--font-body);font-size:14px;margin-top:6px">${esc(fmt(R.head))}</span>`;
+  }
+  if (boss){
+    actions = R.over
+      ? `<button id="againBtn" class="primary">Play again</button><button id="changeBtn" class="ghost">${NET.mode === 'solo' ? 'Change players' : 'Back to lobby'}</button>`
+      : `<button id="nextBtn" class="primary">Next round</button>`;
+  } else {
+    actions = `<p>Waiting for ${esc(NET.meta ? NET.meta.hostName : 'the host')} to ${R.over ? 'start a new game' : 'deal the next round'}.</p>`;
+  }
+  const r = $('#result');
+  r.innerHTML = `<div class="res-card" role="dialog" aria-label="Round result"><p class="eyebrow">${eyebrow}</p><h2>${title}</h2>
+    <table class="res"><thead><tr><th>Player</th><th class="num">Hand</th><th class="num">Round</th><th class="num">Total</th></tr></thead><tbody>${body}</tbody></table>
+    <div class="res-actions">${actions}</div></div>`;
+  r.hidden = false;
+  requestAnimationFrame(() => requestAnimationFrame(() => r.classList.add('on')));
+  if (!boss) return;
+  if (R.over){
+    $('#againBtn').onclick = hostAgain;
+    $('#changeBtn').onclick = NET.mode === 'solo' ? toSetup : hostLobby;
+    $('#againBtn').focus();
+  } else {
+    $('#nextBtn').onclick = () => startRound(R.winIdx);
+    $('#nextBtn').focus();
+  }
+}
+
+let rq = false;
+function scheduleRender(){ if (!rq){ rq = true; setTimeout(render, 0); } }
+function render(){
+  rq = false;
+  if (NET.mode !== 'solo') setScreen(NET.meta && NET.meta.started && VIEW && VIEW.phase !== 'lobby' ? 'game' : 'lobby');
+  if (screen === 'lobby') renderLobby();
+  if (screen !== 'game' || !VIEW) return;
+  const S = VIEW, me = myIdx();
+  for (const id of [...sel]) if (!MYHAND.includes(id)) sel.delete(id);
+  if (!(S.turn === me && S.phase === 'throw' && !awaiting)) sel.clear();
+  layout(); updateUI(); renderResult(); renderBanner();
+}
+
+function setScreen(s){
+  if (screen === s) return;
+  screen = s;
+  $('#setup').hidden = s !== 'setup';
+  $('#lobby').hidden = s !== 'lobby';
+  $('#game').hidden = s !== 'game';
+  const nb = $('#newBtn');
+  nb.hidden = s !== 'game';
+  nb.textContent = NET.mode === 'solo' ? 'Change players' : 'Leave table';
+  if (s !== 'game'){ shown.forEach(el => el.classList.add('gone')); shown = new Set(); hideResult(); }
+}
+
+/* ---------- host engine (runs in exactly one browser) ---------- */
+function L(t, ...p){ G.log.unshift({ t, p }); G.log = G.log.slice(0, 7); }
+function B(t, p = [], ms){ G.banner = { t, p, ms, seq: Date.now() + Math.random() }; }
+function pub(){
+  return {
+    players: G.players.map(p => ({ uid: p.uid, name: p.name, bot: !!p.bot, score: p.score, out: p.out, count: p.hand.length,
+      hand: G.reveal && !p.out ? [...p.hand].sort(byRank) : null })),
+    deckCount: G.deck.length, discard: G.discard, last: G.last, lastRun: G.lastRun, pending: G.pending,
+    turn: G.turn, phase: G.phase, reveal: G.reveal, round: G.round, target: G.target, limit: G.limit,
+    log: G.log, banner: G.banner, result: G.result, wiggle: G.wiggle, caller: G.caller, showTotal: G.showTotal, away: G.away
+  };
+}
+function sync(){
+  const s = JSON.stringify(pub());
+  if (NET.mode === 'host'){
+    const up = { state: s, secret: JSON.stringify(G) };
+    G.players.forEach(p => { if (!p.bot && p.uid !== NET.uid) up['hands/' + p.uid] = JSON.stringify(p.hand); });
+    NET.ref.update(up).catch(e => console.warn('Sync failed', e));
+  }
+  VIEW = JSON.parse(s);
+  const mp = G.players.find(p => p.uid === NET.uid);
+  MYHAND = mp ? [...mp.hand] : [];
+  localStatus = null;
+  scheduleRender();
+}
+
+function newGame(players, target, limit){
+  HT++;
+  G = { players: players.map(p => ({ ...p, hand: [], score: 0, out: false, risk: p.bot ? 3 + Math.floor(Math.random() * 3) : 0 })),
+    deck: [], discard: [], last: [], lastRun: false, pending: [], pendingRun: false, turn: 0, phase: 'deal', reveal: false,
+    wiggle: false, round: 0, target, limit, log: [], banner: null, result: null, caller: null, showTotal: 0, away: [], starter: 0 };
+  sel.clear();
+  startRound(Math.floor(Math.random() * players.length));
+}
 function ensureDeck(){
-  if (!G.deck.length && G.discard.length){ G.deck = shuffle(G.discard); G.discard = []; addLog('Deck ran out. The old throws were shuffled into a new deck.'); }
+  if (!G.deck.length && G.discard.length){ G.deck = shuffle(G.discard); G.discard = []; L('Deck ran out. The old throws were shuffled into a new deck.'); }
 }
 function doThrow(pi, ids){
   const p = G.players[pi];
@@ -516,219 +824,408 @@ function drawFrom(pi, src){
   const thrown = G.pending;
   G.last = G.pending; G.lastRun = G.pendingRun; G.pending = [];
   ensureDeck();
-  const who = p.human ? 'You' : p.name;
-  const took = src === 'deck' ? (p.human ? `drew ${cardText(card)}` : 'drew from the deck') : `took ${cardText(card)} from the throw`;
-  addLog(`${who} threw ${cardsText(thrown)} and ${took}.`);
+  L(`{0} threw ${cardsText(thrown)} and ${src === 'deck' ? 'drew from the deck' : `took ${cardText(card)} from the throw`}.`, pi);
 }
 function nextTurn(){
+  G.away = [];
   let i = G.turn;
   do { i = (i + 1) % G.players.length; } while (G.players[i].out);
   G.turn = i; beginTurn();
 }
 function beginTurn(){
   const p = G.players[G.turn];
-  if (p.human){
-    G.phase = 'throw';
-    const t = sum(p.hand);
-    setStatus(t <= G.limit
-      ? `Your turn. You hold ${t}. Call Show if you think you're lowest, or throw.`
-      : 'Your turn. Tap a card, a set, or a run of 3+ in one suit, then throw.');
-    layout();
-  } else {
-    G.phase = 'bot'; setStatus(`${p.name} is thinking…`); layout();
-    botTurn(G.token);
-  }
+  G.phase = 'throw'; sync();
+  if (p.bot) botTurn(HT, false); else checkAway();
 }
-async function botTurn(tok){
-  await sleep(750); if (tok !== G.token) return;
+// A bot plays: either a real bot, or standing in for a friend whose connection dropped.
+async function botTurn(tok, standIn){
+  await sleep(standIn ? 300 : 750); if (tok !== HT) return;
   const pi = G.turn, p = G.players[pi];
-  if (botWantsShow(pi)) return callShow(pi);
-  const m = bestMove(p.hand, G.last, G.lastRun);
-  doThrow(pi, m.group); setStatus(`${p.name} throws ${cardsText(G.pending)}.`); layout();
-  await sleep(700); if (tok !== G.token) return;
-  const e = evalPick(p.hand, G.last, G.lastRun);
-  drawFrom(pi, e.pick); setStatus(G.log[0]); layout();
-  await sleep(500); if (tok !== G.token) return;
+  if (G.phase === 'throw'){
+    if (!standIn && botWantsShow(pi)) return callShow(pi);
+    doThrow(pi, bestMove(p.hand, G.last, G.lastRun).group); G.phase = 'draw'; sync();
+    await sleep(700); if (tok !== HT) return;
+  }
+  if (G.phase !== 'draw' || G.turn !== pi) return;
+  drawFrom(pi, evalPick(p.hand, G.last, G.lastRun).pick); G.phase = 'wait'; sync();
+  await sleep(500); if (tok !== HT) return;
   nextTurn();
 }
-async function humanDraw(src){
-  if (G.phase !== 'draw' || G.turn !== 0) return;
+function checkAway(){
+  clearTimeout(awayTimer);
+  if (NET.mode !== 'host' || !G) return;
+  const pi = G.turn, p = G.players[pi];
+  if (!p || p.bot || p.uid === NET.uid || G.away.includes(pi) || !['throw','draw'].includes(G.phase) || !isAway(p)) return;
+  const tok = HT;
+  awayTimer = setTimeout(() => {
+    if (tok !== HT || G.turn !== pi || !['throw','draw'].includes(G.phase) || !isAway(p)) return;
+    G.away = [pi]; sync(); botTurn(HT, true);
+  }, 5000);
+}
+async function humanDraw(pi, src){
   G.phase = 'wait';
-  const tok = G.token;
-  drawFrom(0, src); setStatus(G.log[0]); layout();
-  await sleep(450); if (tok !== G.token) return;
+  const tok = HT;
+  drawFrom(pi, src); sync();
+  await sleep(450); if (tok !== HT) return;
   nextTurn();
+}
+function handleAction(uid, a){
+  if (!G || !a) return;
+  const pi = G.players.findIndex(p => p.uid === uid && !p.bot);
+  if (pi < 0 || G.turn !== pi || G.players[pi].out || G.away.includes(pi)) return;
+  const p = G.players[pi];
+  if (a.type === 'throw' && G.phase === 'throw'){
+    const ids = (Array.isArray(a.ids) ? a.ids : Object.values(a.ids || {})).map(Number);
+    if (new Set(ids).size !== ids.length || !ids.every(i => p.hand.includes(i)) || !isValid(ids)) return;
+    doThrow(pi, ids); G.phase = 'draw'; sync();
+  } else if (a.type === 'draw' && G.phase === 'draw'){
+    const src = a.src === 'deck' ? 'deck' : Number(a.src);
+    if (src !== 'deck' && !pickableOf(G.last, G.lastRun).includes(src)) return;
+    humanDraw(pi, src);
+  } else if (a.type === 'show' && G.phase === 'throw' && sum(p.hand) <= G.limit){
+    callShow(pi);
+  }
 }
 
 async function startRound(starter){
-  const tok = ++G.token;
-  hideResult();
-  G.round++; G.phase = 'deal'; G.reveal = false; G.sel.clear();
+  const tok = ++HT;
+  G.round++; G.phase = 'deal'; G.reveal = false; G.result = null; G.caller = null; G.away = []; G.starter = starter;
   G.players.forEach(p => p.hand = []);
   G.discard = []; G.last = []; G.pending = [];
   G.deck = shuffle([...Array(52).keys()]);
-  setStatus(`Round ${G.round}. Shuffling…`);
-  layout(); await sleep(600); if (tok !== G.token) return;
-  for (let k = 0; k < 2; k++){ G.wiggle = true; layout(); await sleep(200); G.wiggle = false; layout(); await sleep(200); if (tok !== G.token) return; }
-  banner(`Round ${G.round}`);
+  sync(); await sleep(600); if (tok !== HT) return;
+  for (let k = 0; k < 2; k++){ G.wiggle = true; sync(); await sleep(200); G.wiggle = false; sync(); await sleep(200); if (tok !== HT) return; }
+  B(`Round ${G.round}`);
   const order = []; let i = starter;
   for (let c = 0; c < G.players.length; c++){ if (!G.players[i].out) order.push(i); i = (i + 1) % G.players.length; }
-  setStatus('Dealing five cards each…');
   for (let r = 0; r < 5; r++) for (const pi of order){
-    G.players[pi].hand.push(G.deck.pop()); layout();
-    await sleep(90); if (tok !== G.token) return;
+    G.players[pi].hand.push(G.deck.pop()); sync();
+    await sleep(90); if (tok !== HT) return;
   }
-  await sleep(300); if (tok !== G.token) return;
-  G.last = [G.deck.pop()]; G.lastRun = false; layout();
-  await sleep(500); if (tok !== G.token) return;
+  await sleep(300); if (tok !== HT) return;
+  G.last = [G.deck.pop()]; G.lastRun = false; sync();
+  await sleep(500); if (tok !== HT) return;
   G.turn = starter;
-  addLog(`Round ${G.round}: ${starter === 0 ? 'you start' : G.players[starter].name + ' starts'}.`);
+  L(`Round ${G.round}: {0} started.`, starter);
   beginTurn();
 }
 
 async function callShow(pi){
-  const tok = G.token;
-  G.phase = 'show'; G.sel.clear();
-  const caller = G.players[pi];
-  banner(`${caller.human ? 'You call' : caller.name + ' calls'} Show!`, 1500);
-  setStatus(`${caller.human ? 'You call' : caller.name + ' calls'} Show with ${sum(caller.hand)}.`);
-  layout(); await sleep(1000); if (tok !== G.token) return;
-  G.reveal = true; layout();
-  await sleep(1500); if (tok !== G.token) return;
+  const tok = HT, caller = G.players[pi];
+  G.phase = 'show'; G.caller = pi; G.reveal = false; G.showTotal = sum(caller.hand);
+  B('{0} called Show!', [pi], 1500); sync();
+  await sleep(1000); if (tok !== HT) return;
+  G.reveal = true; sync();
+  await sleep(1500); if (tok !== HT) return;
 
   const act = G.players.map((p, i) => ({ p, i })).filter(o => !o.p.out);
-  const ct = sum(caller.hand);
+  const ct = G.showTotal;
   const others = act.filter(o => o.i !== pi);
   const minO = Math.min(...others.map(o => sum(o.p.hand)));
   const caught = minO <= ct;
-  const catcher = caught ? others.find(o => sum(o.p.hand) === minO) : null;
+  const catcher = caught ? others.find(o => sum(o.p.hand) === minO).i : null;
   const rows = act.map(({ p, i }) => {
     const t = sum(p.hand);
-    let pts;
-    if (!caught) pts = i === pi ? 0 : t;
-    else pts = i === pi ? t + PENALTY : (t === minO ? 0 : t);
+    const pts = !caught ? (i === pi ? 0 : t) : (i === pi ? t + PENALTY : (t === minO ? 0 : t));
     p.score += pts;
-    return { p, i, t, pts, hand: [...p.hand].sort(byRank) };
+    return { pi: i, t, pts, score: p.score, hand: [...p.hand].sort(byRank) };
   });
-  const winIdx = caught ? catcher.i : pi;
-  rows.forEach(r => { if (r.p.score >= G.target) { r.p.out = true; r.justOut = true; } });
-  const nm = (p, verbYou, verbThey) => p.human ? `You ${verbYou}` : `${p.name} ${verbThey}`;
-  const headline = caught
-    ? `${nm(caller, 'got', 'got')} caught. ${catcher.p.human ? 'You' : catcher.p.name} had ${minO} against ${ct}.`
-    : `${nm(caller, 'win', 'wins')} the round with ${ct}.`;
-  addLog(headline);
-  updateUI(); updateSeats();
-  const me = G.players[0];
+  rows.forEach(r => { const p = G.players[r.pi]; if (p.score >= G.target){ p.out = true; r.justOut = true; } });
+  const head = caught ? { t: `{0} got caught. {1} had ${minO} against ${ct}.`, p: [pi, catcher] } : { t: `{0} won the round with ${ct}.`, p: [pi] };
+  L(head.t, ...head.p);
   const alive = G.players.filter(p => !p.out);
-  const over = me.out || alive.length <= 1;
-  showResult(rows, headline, caught, winIdx, over);
+  G.result = { rows, caught, caller: pi, winIdx: caught ? catcher : pi, head, over: alive.length <= 1 || !alive.some(p => !p.bot) };
+  G.phase = 'result'; sync();
 }
 
-function hideResult(){ const r = $('#result'); r.classList.remove('on'); r.hidden = true; }
-function showResult(rows, headline, caught, winIdx, over){
-  const r = $('#result');
-  const body = rows.map(x => `<tr class="${x.i === winIdx ? 'win' : ''}"><td>${x.p.name}${x.justOut ? '<span class="tag-out">out</span>' : ''}<span class="hand">${cardsText(x.hand) || '—'}</span></td><td class="num">${x.t}</td><td class="num">+${x.pts}${x.i !== winIdx && caught && x.pts > x.t ? ' <span class="hand">incl. 25</span>' : ''}</td><td class="num">${x.p.score}</td></tr>`).join('');
-  let actions, title = headline, eyebrow = `Round ${G.round}`;
-  if (over){
-    const ranked = [...G.players].sort((a, b) => (a.out - b.out) || (a.score - b.score));
-    const champ = ranked[0];
-    eyebrow = 'Game over';
-    title = champ.human ? 'You win the table!' : (G.players[0].out ? `You're out. ${champ.name} leads the table.` : `${champ.name} wins the table.`);
-    title += ` <span class="hand" style="display:block;font-family:var(--font-body);font-size:14px;margin-top:6px">${headline}</span>`;
-    actions = `<button id="againBtn" class="primary">Play again</button><button id="changeBtn" class="ghost">Change players</button>`;
-  } else {
-    actions = `<button id="nextBtn" class="primary">Next round</button>`;
-  }
-  r.innerHTML = `<div class="res-card" role="dialog" aria-label="Round result"><p class="eyebrow">${eyebrow}</p><h2>${title}</h2>
-    <table class="res"><thead><tr><th>Player</th><th class="num">Hand</th><th class="num">Round</th><th class="num">Total</th></tr></thead><tbody>${body}</tbody></table>
-    <div class="res-actions">${actions}</div></div>`;
-  r.hidden = false;
-  requestAnimationFrame(() => requestAnimationFrame(() => r.classList.add('on')));
-  G.phase = 'result';
-  if (over){
-    $('#againBtn').onclick = () => startGame(G.n);
-    $('#changeBtn').onclick = toSetup;
-    $('#againBtn').focus();
-  } else {
-    $('#nextBtn').onclick = () => startRound(winIdx);
-    $('#nextBtn').focus();
-  }
+function hostAgain(){
+  G.players.forEach(p => { p.score = 0; p.out = false; p.hand = []; });
+  G.round = 0; G.log = [];
+  startRound(Math.floor(Math.random() * G.players.length));
+}
+function hostLobby(){
+  HT++; G.phase = 'lobby'; G.result = null; sync();
+  NET.ref.child('meta').update({ started: false });
+}
+function toSetup(){
+  HT++; G = null; VIEW = null; MYHAND = [];
+  setScreen('setup');
+}
+// The host reloaded the page: pick the game back up from the copy saved in Firebase.
+function resume(){
+  HT++;
+  if (!NET.meta.started || G.phase === 'lobby'){ G.phase = 'lobby'; sync(); return; }
+  sync();
+  const p = G.players[G.turn];
+  if (G.phase === 'deal'){ G.round--; startRound(G.starter); }
+  else if (G.phase === 'show') callShow(G.caller);
+  else if (G.phase === 'wait') nextTurn();
+  else if (G.phase === 'throw' || G.phase === 'draw'){ G.away = []; if (p.bot) botTurn(HT, false); else checkAway(); }
 }
 
-/* ---------- input ---------- */
+/* ---------- moves from this screen ---------- */
+function act(a){
+  if (NET.mode === 'client'){
+    awaiting = true;
+    clearTimeout(awaitTimer);
+    awaitTimer = setTimeout(() => { awaiting = false; scheduleRender(); }, 4000);
+    NET.ref.child('actions').push({ ...a, uid: NET.uid }).catch(() => {
+      awaiting = false; localStatus = 'Could not reach the table. Check your connection and try again.'; scheduleRender();
+    });
+    scheduleRender();
+  } else handleAction(NET.uid, a);
+}
 function onCard(el){
-  const id = +el.dataset.id, me = G.players[0];
-  if (G.turn !== 0) return;
-  if (G.phase === 'throw' && me.hand.includes(id)){ G.sel.has(id) ? G.sel.delete(id) : G.sel.add(id); layout(); return; }
-  if (G.phase === 'draw'){
-    if (G.deck.includes(id)) return humanDraw('deck');
-    if (pickableOf(G.last, G.lastRun).includes(id)) return humanDraw(id);
-  }
+  const S = VIEW; if (!S || awaiting) return;
+  const me = myIdx();
+  if (S.turn !== me || S.away.includes(me)) return;
+  if (el.dataset.kind === 'deck'){ if (S.phase === 'draw') act({ type: 'draw', src: 'deck' }); return; }
+  if (el.dataset.kind !== 'real') return;
+  const id = +el.dataset.id;
+  if (S.phase === 'throw' && MYHAND.includes(id)){ sel.has(id) ? sel.delete(id) : sel.add(id); render(); return; }
+  if (S.phase === 'draw' && pickableOf(S.last, S.lastRun).includes(id)) act({ type: 'draw', src: id });
 }
 layer.addEventListener('click', e => { const el = e.target.closest('.card'); if (el) onCard(el); });
 layer.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('card')){ e.preventDefault(); onCard(e.target); } });
 $('#throwBtn').onclick = () => {
-  if (G.phase !== 'throw' || G.turn !== 0) return;
-  const ids = [...G.sel]; if (!isValid(ids)) return;
-  G.sel.clear(); doThrow(0, ids); G.phase = 'draw';
-  setStatus(G.lastRun ? 'Now take one card: the deck, or an end card of the glowing run.' : 'Now take one card: the top of the deck, or a glowing card from the last throw.');
-  layout();
+  const ids = [...sel]; if (!isValid(ids)) return;
+  sel.clear(); act({ type: 'throw', ids });
 };
-$('#showBtn').onclick = () => { if (G.phase === 'throw' && G.turn === 0 && sum(G.players[0].hand) <= G.limit) callShow(0); };
+$('#showBtn').onclick = () => act({ type: 'show' });
 $('#hintBtn').onclick = () => {
-  const me = G.players[0];
-  if (G.turn !== 0) return;
-  if (G.phase === 'throw'){
-    const t = sum(me.hand);
-    const opp = G.players.filter(p => !p.human && !p.out);
-    const minCards = Math.min(...opp.map(o => o.hand.length));
-    if (t <= G.limit && (t <= 4 || (t <= 7 && minCards >= 4))){
-      setStatus(`Hint: you hold ${t} and opponents still have ${minCards}+ cards. This is a strong moment to call Show.`);
-      return;
+  const S = VIEW, me = myIdx();
+  if (!S || S.turn !== me) return;
+  if (S.phase === 'throw'){
+    const t = sum(MYHAND);
+    const minCards = Math.min(...S.players.filter((p, i) => i !== me && !p.out).map(p => p.count));
+    if (t <= S.limit && (t <= 4 || (t <= 7 && minCards >= 4))){
+      localStatus = `Hint: you hold ${t} and opponents still have ${minCards}+ cards. This is a strong moment to call Show.`;
+    } else {
+      const m = bestMove(MYHAND, S.last, S.lastRun);
+      sel = new Set(m.group);
+      const after = m.pick === 'deck' ? 'then draw from the deck' : `then take ${cardText(m.pick)} from the last throw`;
+      localStatus = `Hint: throw ${cardsText([...m.group].sort(byRank))} (${sum(m.group)} pts), ${after}.`;
     }
-    const m = bestMove(me.hand, G.last, G.lastRun);
-    G.sel = new Set(m.group); layout();
-    const after = m.pick === 'deck' ? 'then draw from the deck' : `then take ${cardText(m.pick)} from the last throw`;
-    setStatus(`Hint: throw ${cardsText([...m.group].sort(byRank))} (${sum(m.group)} pts), ${after}.`);
-  } else if (G.phase === 'draw'){
-    const e = evalPick(me.hand, G.last, G.lastRun);
-    setStatus(e.pick === 'deck' ? 'Hint: nothing in the throw helps you. Draw from the deck.' : `Hint: take ${cardText(e.pick)}. It's cheap or matches what you hold.`);
+  } else if (S.phase === 'draw'){
+    const e = evalPick(MYHAND, S.last, S.lastRun);
+    localStatus = e.pick === 'deck' ? 'Hint: nothing in the throw helps you. Draw from the deck.' : `Hint: take ${cardText(e.pick)}. It's cheap or matches what you hold.`;
   }
+  render();
+};
+
+/* ---------- online: Firebase ----------
+   rooms/CODE/meta     host, settings, started        (anyone signed in can read)
+   rooms/CODE/players  who's at the table, online dot (each player writes their own)
+   rooms/CODE/state    the public table               (host writes)
+   rooms/CODE/hands/U  one player's cards             (only that player can read)
+   rooms/CODE/actions  moves sent to the host         (host reads)
+   rooms/CODE/secret   full game, for host reloads    (host only) */
+const loadScript = src => new Promise((ok, no) => {
+  const s = document.createElement('script'); s.src = src;
+  s.onload = ok; s.onerror = () => no(new Error('Could not load the online-play library. Check your connection.'));
+  document.head.appendChild(s);
+});
+let fbP = null;
+function fb(){
+  if (!window.DHUMBAL_FIREBASE) return Promise.reject(new Error("Online play isn't set up on this copy of the game yet."));
+  if (!fbP){
+    fbP = (async () => {
+      for (const s of FB_SDK) await loadScript(s);
+      firebase.initializeApp(window.DHUMBAL_FIREBASE);
+      const cred = await firebase.auth().signInAnonymously();
+      return { db: firebase.database(), uid: cred.user.uid };
+    })();
+    fbP.catch(() => { fbP = null; });
+  }
+  return fbP;
+}
+const genCode = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)]).join('');
+const shareUrl = code => location.origin + location.pathname + '?room=' + code;
+function onlineMsg(t, err){ const m = $('#onlineMsg'); m.textContent = t || ''; m.classList.toggle('err', !!err); }
+function busy(b){ $('#createBtn').disabled = b; $('#joinBtn').disabled = b; }
+function sub(ref, ev, fn){ ref.on(ev, fn, e => console.warn(e)); NET.subs.push(() => ref.off(ev, fn)); }
+
+async function createRoom(){
+  const name = cleanName($('#nameIn').value);
+  if (!name){ onlineMsg('Type your name first.', true); $('#nameIn').focus(); return; }
+  busy(true); onlineMsg('Setting up your table…');
+  try {
+    const { db, uid } = await fb();
+    let code = null;
+    for (let i = 0; i < 6 && !code; i++){
+      const c = genCode();
+      const r = await db.ref(`rooms/${c}/meta`).transaction(cur => cur === null
+        ? { host: uid, hostName: name, created: firebase.database.ServerValue.TIMESTAMP, started: false, settings: { bots: 2, target: 100, limit: 10 } }
+        : undefined);
+      if (r.committed) code = c;
+    }
+    if (!code) throw new Error('Could not create a table. Try again.');
+    await enterRoom(db, uid, code, name);
+  } catch (e){ onlineMsg(e.message, true); }
+  finally { busy(false); }
+}
+async function joinRoom(){
+  const name = cleanName($('#nameIn').value);
+  const code = $('#codeIn').value.toUpperCase().replace(/[^A-Z]/g, '');
+  if (!name){ onlineMsg('Type your name first.', true); $('#nameIn').focus(); return; }
+  if (code.length !== 4){ onlineMsg('Table codes are 4 letters.', true); $('#codeIn').focus(); return; }
+  busy(true); onlineMsg('Joining…');
+  try { const { db, uid } = await fb(); await enterRoom(db, uid, code, name); }
+  catch (e){ onlineMsg(e.message, true); }
+  finally { busy(false); }
+}
+async function enterRoom(db, uid, code, name){
+  const ref = db.ref('rooms/' + code);
+  const meta = (await ref.child('meta').get()).val();
+  if (!meta) throw new Error(`No table found with code ${code}.`);
+  const isHost = meta.host === uid;
+  const players = (await ref.child('players').get()).val() || {};
+  if (!isHost && !players[uid]){
+    if (meta.started){
+      const st = (await ref.child('state').get()).val();
+      const seated = st && JSON.parse(st).players.some(p => p.uid === uid);
+      if (!seated) throw new Error('That table is in the middle of a game. Ask the host to go back to the lobby, then join.');
+    } else if (Object.keys(players).length >= 6) throw new Error('That table is full (6 players).');
+  }
+  if (isHost){ const sec = (await ref.child('secret').get()).val(); G = sec ? JSON.parse(sec) : null; }
+
+  Object.assign(NET, { mode: isHost ? 'host' : 'client', uid, code, ref, meta, players });
+  const meRef = ref.child('players/' + uid);
+  await meRef.update(players[uid] && players[uid].joined ? { name, online: true } : { name, online: true, joined: firebase.database.ServerValue.TIMESTAMP });
+
+  sub(db.ref('.info/connected'), 'value', s => {
+    if (!s.val()) return;
+    meRef.child('online').onDisconnect().set(false); meRef.child('online').set(true);
+    if (isHost){ ref.child('meta/hostOnline').onDisconnect().set(false); ref.child('meta/hostOnline').set(true); }
+  });
+  sub(ref.child('meta'), 'value', s => {
+    const v = s.val();
+    if (!v) return kicked('The host closed that table.');
+    NET.meta = v; scheduleRender();
+  });
+  sub(ref.child('players'), 'value', s => { NET.players = s.val() || {}; checkAway(); scheduleRender(); });
+  if (isHost){
+    sub(ref.child('actions'), 'child_added', s => { const a = s.val(); s.ref.remove(); handleAction(a && a.uid, a); });
+    if (G) resume();
+  } else {
+    sub(ref.child('state'), 'value', s => { const v = s.val(); VIEW = v ? JSON.parse(v) : null; awaiting = false; localStatus = null; scheduleRender(); });
+    sub(ref.child('hands/' + uid), 'value', s => { const v = s.val(); MYHAND = v ? JSON.parse(v) : []; scheduleRender(); });
+  }
+  store.set('dhumbal.name', name);
+  history.replaceState(null, '', '?room=' + code);
+  onlineMsg('');
+  setScreen('lobby'); scheduleRender();
+}
+function resetNet(){
+  NET.subs.forEach(off => off());
+  Object.assign(NET, { mode: 'solo', uid: 'me', code: null, ref: null, meta: null, players: {}, subs: [] });
+  HT++; clearTimeout(awayTimer); G = null; VIEW = null; MYHAND = []; awaiting = false;
+  history.replaceState(null, '', location.pathname);
+  setScreen('setup'); setMode('online');
+}
+function kicked(msg){ resetNet(); onlineMsg(msg, true); }
+async function leaveRoom(){
+  const { ref, uid, mode } = NET;
+  NET.subs.forEach(off => off()); NET.subs = [];
+  try {
+    const meRef = ref.child('players/' + uid);
+    await meRef.child('online').onDisconnect().cancel();
+    if (mode === 'host'){ await ref.child('meta/hostOnline').onDisconnect().cancel(); await ref.remove(); }
+    else await meRef.remove();
+  } catch (e){ console.warn(e); }
+  resetNet();
+}
+
+function lobbyList(){ return Object.entries(NET.players).sort((a, b) => (a[1].joined || 0) - (b[1].joined || 0)); }
+function renderLobby(){
+  if (!NET.meta) return;
+  const host = NET.mode === 'host', set = NET.meta.settings || { bots: 2, target: 100, limit: 10 };
+  $('#roomCode').textContent = NET.code;
+  $('#shareLink').value = shareUrl(NET.code);
+  const list = lobbyList();
+  $('#lobbyPlayers').innerHTML = list.map(([uid, p]) => `<li><span class="dot ${p.online ? '' : 'off'}" title="${p.online ? 'Online' : 'Offline'}"></span><span class="nm">${esc(p.name)}${uid === NET.uid ? ' (you)' : ''}</span><span class="pill">${uid === NET.meta.host ? 'Host' : ''}</span></li>`).join('');
+  $('#hostOpts').hidden = !host;
+  $('#lStart').hidden = !host;
+  $('#lobbyWait').hidden = host;
+  const max = Math.max(0, 6 - list.length), bots = Math.min(set.bots, max);
+  if (host){
+    const bs = $('#lBots');
+    if (bs.options.length !== max + 1) bs.innerHTML = Array.from({ length: max + 1 }, (_, i) => `<option value="${i}">${i === 0 ? 'No bots' : i + ' bot' + (i > 1 ? 's' : '')}</option>`).join('');
+    bs.value = String(bots); $('#lTarget').value = String(set.target); $('#lLimit').value = String(set.limit);
+    const total = list.length + bots;
+    $('#lStart').disabled = total < 2;
+    $('#lHint').textContent = total < 2 ? 'Send your friends the code or link above, or add a bot.' : `${total} at the table: ${list.length} ${list.length === 1 ? 'person' : 'people'}${bots ? ` and ${bots} bot${bots > 1 ? 's' : ''}` : ''}.`;
+  } else {
+    $('#lobbyWait').textContent = `Waiting for ${NET.meta.hostName} to deal. Out at ${set.target}, Show at ${set.limit >= 99 ? 'any total' : set.limit + ' or less'}${bots ? `, with ${bots} bot${bots > 1 ? 's' : ''}` : ''}.`;
+  }
+}
+const saveSetting = (k, v) => NET.mode === 'host' && NET.ref.child('meta/settings').update({ [k]: +v });
+$('#lBots').onchange = e => saveSetting('bots', e.target.value);
+$('#lTarget').onchange = e => saveSetting('target', e.target.value);
+$('#lLimit').onchange = e => saveSetting('limit', e.target.value);
+$('#lStart').onclick = async () => {
+  const set = NET.meta.settings || { bots: 2, target: 100, limit: 10 };
+  const used = new Set();
+  const humans = lobbyList().map(([uid, p]) => {
+    let nm = cleanName(p.name) || 'Player', base = nm, k = 2;
+    while (used.has(nm.toLowerCase())) nm = base + ' ' + k++;
+    used.add(nm.toLowerCase());
+    return { uid, name: nm, bot: false };
+  });
+  const bots = shuffle(BOT_NAMES.filter(b => !used.has(b.toLowerCase()))).slice(0, Math.min(set.bots, 6 - humans.length)).map(name => ({ uid: 'bot-' + name, name, bot: true }));
+  if (humans.length + bots.length < 2) return;
+  $('#lStart').disabled = true;
+  try { await NET.ref.child('meta').update({ started: true }); newGame([...humans, ...bots], set.target, set.limit); }
+  catch (e){ $('#lHint').textContent = 'Could not start: ' + e.message; $('#lStart').disabled = false; }
+};
+$('#leaveBtn').onclick = leaveRoom;
+$('#copyBtn').onclick = () => {
+  const b = $('#copyBtn'), link = $('#shareLink').value;
+  const done = t => { b.textContent = t; setTimeout(() => b.textContent = 'Copy link', 1600); };
+  if (navigator.clipboard) navigator.clipboard.writeText(link).then(() => done('Copied'), () => { $('#shareLink').select(); done('Select and copy'); });
+  else { $('#shareLink').select(); done('Select and copy'); }
 };
 
 /* ---------- setup ---------- */
+function setMode(m){
+  document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === m ? 'true' : 'false'));
+  $('#soloPane').hidden = m !== 'solo';
+  $('#onlinePane').hidden = m !== 'online';
+  if (m === 'online' && !window.DHUMBAL_FIREBASE) onlineMsg("Online play isn't set up on this copy of the game yet.", true);
+}
+document.querySelectorAll('.modes button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
+
+let soloN = 4;
 const countsEl = $('#counts');
 for (let n = 2; n <= 6; n++){
   const b = document.createElement('button');
   b.className = 'count'; b.dataset.n = n; b.type = 'button';
   b.setAttribute('aria-pressed', n === 4 ? 'true' : 'false');
   b.innerHTML = `<span class="n">${n}</span><span class="dots">${'<i></i>'.repeat(n)}</span><span class="sub">You + ${n - 1} bot${n > 2 ? 's' : ''}</span>`;
-  b.onclick = () => { G.n = n; countsEl.querySelectorAll('.count').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); };
+  b.onclick = () => { soloN = n; countsEl.querySelectorAll('.count').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); };
   countsEl.appendChild(b);
 }
-function startGame(n){
-  G.n = n;
-  G.target = +$('#target').value; G.limit = +$('#limit').value;
-  const bots = shuffle([...BOT_NAMES]).slice(0, n - 1);
-  G.players = [{ name: 'You', human: true, hand: [], score: 0, out: false }]
-    .concat(bots.map(name => ({ name, human: false, hand: [], score: 0, out: false, risk: 3 + Math.floor(Math.random() * 3) })));
-  seatsEl.innerHTML = G.players.map(() => '<div class="seat"></div>').join('');
-  G.round = 0; G.log = []; $('#log').innerHTML = '';
-  $('#setup').hidden = true; $('#game').hidden = false; $('#newBtn').hidden = false;
-  els.forEach(el => { el.style.transition = 'none'; });
-  measure();
-  G.deck = [...Array(52).keys()]; G.discard = []; G.last = []; G.pending = [];
-  layout();
-  requestAnimationFrame(() => { els.forEach(el => el.style.transition = ''); startRound(Math.floor(Math.random() * n)); });
+$('#startBtn').onclick = () => {
+  const bots = shuffle([...BOT_NAMES]).slice(0, soloN - 1).map(name => ({ uid: 'bot-' + name, name, bot: true }));
+  setScreen('game');
+  newGame([{ uid: 'me', name: 'You', bot: false }, ...bots], +$('#target').value, +$('#limit').value);
+};
+$('#newBtn').onclick = () => NET.mode === 'solo' ? toSetup() : leaveRoom();
+$('#createBtn').onclick = createRoom;
+$('#joinBtn').onclick = joinRoom;
+$('#codeIn').addEventListener('keydown', e => { if (e.key === 'Enter') joinRoom(); });
+$('#nameIn').value = store.get('dhumbal.name') || '';
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(scheduleRender, 120); });
+
+// Opened from an invite link: go straight to the table.
+const roomParam = new URLSearchParams(location.search).get('room');
+if (roomParam){
+  setMode('online');
+  $('#codeIn').value = roomParam.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+  if ($('#nameIn').value) joinRoom();
+  else { onlineMsg('Type your name, then press Join.'); $('#nameIn').focus(); }
 }
-function toSetup(){
-  G.token++; G.phase = 'idle'; hideResult();
-  $('#game').hidden = true; $('#setup').hidden = false; $('#newBtn').hidden = true;
-}
-$('#startBtn').onclick = () => startGame(G.n);
-$('#newBtn').onclick = toSetup;
-let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (!$('#game').hidden) layout(); }, 120); });
 })();
 </script>
-
-</body></html>
+</body>
+</html>
