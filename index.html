@@ -1,0 +1,734 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Dhumbal Table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Yatra+One&display=swap">
+<style>
+/* Layout: one oxblood felt table with a dhaka-weave rim, controls beneath, tips at the foot. Single dark look by choice. */
+:root{
+  --ink:#1a0709;
+  --panel:#2a0c11;
+  --panel-line:#4a1c24;
+  --felt:#5a1a24;
+  --felt-deep:#2b0a10;
+  --cream:#f4e9d8;
+  --muted:#c9a89b;
+  --marigold:#f2a516;
+  --marigold-deep:#c97f06;
+  --vermilion:#d4352e;
+  --card:#fbf6ec;
+  --card-ink:#1d1515;
+  --card-red:#b3202a;
+  --weave-red:#b3202a;
+  --weave-dark:#1d0a0c;
+  --weave-light:#efe2c8;
+  --font-display:'Yatra One', Georgia, 'Times New Roman', serif;
+  --font-body:'Hind', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme:dark;
+}
+html,body{background:var(--ink);color:var(--cream)}
+body{font-family:var(--font-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
+button{font:inherit;color:inherit}
+button:focus-visible,select:focus-visible,.card:focus-visible{outline:2px solid var(--marigold);outline-offset:3px}
+
+/* header */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;margin-bottom:18px}
+.brand{display:flex;align-items:baseline;gap:12px}
+h1{font-family:var(--font-display);font-weight:400;font-size:clamp(38px,6vw,56px);line-height:1;margin:0;color:var(--marigold)}
+.dev{font-size:22px;color:var(--muted)}
+.tag{margin:4px 0 0;color:var(--muted);max-width:44ch}
+.tag b{color:var(--cream)}
+
+/* buttons */
+.primary,.show,.ghost{border:0;border-radius:999px;padding:10px 20px;font-weight:600;cursor:pointer;transition:transform .15s ease,background .2s ease,opacity .2s}
+.primary{background:var(--marigold);color:var(--ink)}
+.primary:hover:not(:disabled){background:#ffb932}
+.show{background:var(--vermilion);color:var(--cream);letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+.show:hover:not(:disabled){background:#e8473f}
+.ghost{background:transparent;box-shadow:inset 0 0 0 1px rgba(244,233,216,.3)}
+.ghost:hover:not(:disabled){box-shadow:inset 0 0 0 1px var(--marigold)}
+button:disabled{opacity:.35;cursor:not-allowed}
+button:active:not(:disabled){transform:scale(.97)}
+
+/* setup */
+.setup{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px}
+@media (max-width:760px){.setup{grid-template-columns:minmax(0,1fr)}}
+.setup-card,.howto,.panel{background:var(--panel);border:1px solid var(--panel-line);border-radius:18px;padding:22px}
+.setup-card h2,.howto h3,.panel h3,.tips h2{font-family:var(--font-display);font-weight:400;margin:0 0 14px;text-wrap:balance}
+.setup-card h2{font-size:26px}
+.counts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.counts{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.count{background:var(--felt-deep);border:1px solid var(--panel-line);border-radius:14px;padding:14px 8px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:border-color .2s,background .2s,transform .2s}
+.count:hover{border-color:var(--marigold-deep)}
+.count[aria-pressed="true"]{border-color:var(--marigold);background:#3d1219;transform:translateY(-2px)}
+.count .n{font-family:var(--font-display);font-size:34px;line-height:1;color:var(--marigold)}
+.count .sub{font-size:12px;color:var(--muted);text-align:center;line-height:1.25}
+.dots{display:flex;gap:3px;flex-wrap:wrap;justify-content:center}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--muted);opacity:.6}
+.dots i:first-child{background:var(--marigold);opacity:1}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+@media (max-width:520px){.opts{grid-template-columns:minmax(0,1fr)}}
+.opts label{display:flex;flex-direction:column;gap:6px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+select{background:var(--felt-deep);color:var(--cream);border:1px solid var(--panel-line);border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;text-transform:none;letter-spacing:0}
+.note{color:var(--muted);font-size:13px;margin:14px 0 18px}
+.howto h3{font-size:20px}
+.howto ol{margin:0;padding-left:20px;display:grid;gap:10px}
+.howto li::marker{color:var(--marigold);font-weight:700}
+.values{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px}
+.values span{background:var(--card);color:var(--card-ink);border-radius:6px;padding:2px 7px;font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
+.values span em{font-style:normal;color:#7a6a64;font-weight:500;margin-left:3px}
+
+/* table */
+.table{position:relative;height:clamp(470px,64vh,620px);border-radius:28px;border:9px solid transparent;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% 42%, #6d2230 0%, var(--felt) 38%, var(--felt-deep) 100%) padding-box,
+    repeating-linear-gradient(45deg,var(--weave-red) 0 3px,transparent 3px 9px) border-box,
+    repeating-linear-gradient(-45deg,var(--weave-dark) 0 3px,transparent 3px 9px) border-box,
+    linear-gradient(var(--weave-light),var(--weave-light)) border-box;
+  box-shadow:0 20px 50px rgba(0,0,0,.5), inset 0 0 80px rgba(0,0,0,.45)}
+#cards,#seats{position:absolute;inset:0}
+.card{position:absolute;left:0;top:0;width:var(--cw,70px);height:var(--ch,98px);perspective:700px;transform-origin:50% 50%;
+  transition:transform .5s cubic-bezier(.22,.9,.25,1);will-change:transform}
+.card .inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.4,.2,.2,1)}
+.card.down .inner{transform:rotateY(180deg)}
+.face,.back{position:absolute;inset:0;border-radius:calc(var(--cw,70px)*.11);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face{background:var(--card);color:var(--card-ink);box-shadow:0 2px 6px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.08);font-family:var(--font-body);transition:box-shadow .2s}
+.face.red{color:var(--card-red)}
+.corner{position:absolute;top:5%;left:9%;font-weight:700;line-height:.92;font-size:calc(var(--cw,70px)*.26);text-align:center}
+.corner.br{top:auto;left:auto;bottom:5%;right:9%;transform:rotate(180deg)}
+.pip{position:absolute;inset:0;display:grid;place-items:center;font-size:calc(var(--cw,70px)*.5)}
+.court{font-family:var(--font-display);font-size:calc(var(--cw,70px)*.52);line-height:1;display:flex;flex-direction:column;align-items:center}
+.court small{font-family:var(--font-body);font-size:calc(var(--cw,70px)*.15);font-weight:600;opacity:.6;margin-top:2px}
+.back{transform:rotateY(180deg);box-shadow:0 2px 6px rgba(0,0,0,.4);
+  background:
+    linear-gradient(var(--weave-light),var(--weave-light)) padding-box;
+  border:calc(var(--cw,70px)*.06) solid var(--weave-light);
+  background-image:
+    repeating-linear-gradient(45deg,var(--weave-red) 0 3px,transparent 3px 8px),
+    repeating-linear-gradient(-45deg,var(--weave-dark) 0 2px,transparent 2px 8px);
+  background-color:var(--weave-light)}
+.card.mine,.card.pick{cursor:pointer}
+.card.sel .face{box-shadow:0 0 0 3px var(--marigold),0 10px 18px rgba(0,0,0,.45)}
+.card.pick .face{animation:glow 1.3s ease-in-out infinite}
+.card.pick.down .back{animation:glow 1.3s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 2px rgba(242,165,22,.55),0 2px 6px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 4px var(--marigold),0 0 18px rgba(242,165,22,.6)}}
+.pile-label{position:absolute;transform:translateX(-50%);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);pointer-events:none;white-space:nowrap;transition:left .4s,top .4s}
+.seat{position:absolute;transform:translateX(-50%);padding:3px 10px;border-radius:12px;background:rgba(20,5,8,.6);font-size:12px;line-height:1.25;text-align:center;white-space:nowrap;z-index:700;pointer-events:none;transition:background .25s,color .25s,left .4s,top .4s}
+.seat b{font-weight:600;display:block}
+.seat .sc{color:var(--muted);font-variant-numeric:tabular-nums}
+.seat.turn{background:var(--marigold);color:var(--ink)}
+.seat.turn .sc{color:var(--ink)}
+.seat.out{opacity:.4}
+.seat .tot{display:inline-block;margin-left:4px;background:var(--cream);color:var(--ink);border-radius:6px;padding:0 5px;font-weight:700}
+.seat.me{transform:none;text-align:left}
+#banner{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(.6);opacity:0;font-family:var(--font-display);font-size:clamp(30px,6vw,54px);color:var(--marigold);text-shadow:0 4px 24px rgba(0,0,0,.7);pointer-events:none;z-index:900;white-space:nowrap;transition:transform .35s cubic-bezier(.3,1.5,.5,1),opacity .3s}
+#banner.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#result{position:absolute;inset:0;z-index:1000;display:grid;place-items:center;padding:16px;background:rgba(20,5,8,.0);transition:background .35s}
+#result.on{background:rgba(20,5,8,.72)}
+.res-card{background:var(--panel);border:1px solid var(--panel-line);border-radius:18px;padding:20px 22px;width:min(460px,100%);max-height:100%;overflow:auto;transform:translateY(16px);opacity:0;transition:transform .4s cubic-bezier(.2,.9,.3,1),opacity .35s}
+#result.on .res-card{transform:none;opacity:1}
+.eyebrow{margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold)}
+.res-card h2{font-family:var(--font-display);font-weight:400;font-size:24px;line-height:1.2;margin:4px 0 14px;text-wrap:balance}
+.res{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums;margin-bottom:16px}
+.res th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500;text-align:left;padding:4px 6px;border-bottom:1px solid var(--panel-line)}
+.res td{padding:7px 6px;border-bottom:1px solid rgba(74,28,36,.6);vertical-align:top}
+.res td.num,.res th.num{text-align:right}
+.res .hand{display:block;font-size:12px;color:var(--muted)}
+.res tr.win td:first-child{color:var(--marigold);font-weight:600}
+.res .tag-out{font-size:11px;background:var(--vermilion);border-radius:6px;padding:0 6px;margin-left:4px}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* action bar */
+.bar{display:flex;align-items:center;gap:12px 18px;flex-wrap:wrap;margin:14px 0 18px;padding:12px 16px;background:var(--panel);border:1px solid var(--panel-line);border-radius:16px}
+.mine-total{display:flex;align-items:baseline;gap:6px}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.big{font-family:var(--font-display);font-size:32px;line-height:1;color:var(--marigold);font-variant-numeric:tabular-nums;min-width:1.4em;text-align:center}
+#status{flex:1 1 240px;min-width:0;margin:0;color:var(--cream)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+
+.lower{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:700px){.lower{grid-template-columns:minmax(0,1fr)}}
+.panel h3{font-size:19px;margin-bottom:10px}
+#scores{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+#scores li{display:grid;grid-template-columns:72px minmax(0,1fr) 40px;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+#scores li.turn .nm{color:var(--marigold);font-weight:600}
+#scores li.out{opacity:.4}
+#scores .track{height:6px;background:var(--felt-deep);border-radius:4px;overflow:hidden}
+#scores .track i{display:block;height:100%;background:linear-gradient(90deg,var(--marigold),var(--vermilion));border-radius:4px;transition:width .6s ease}
+#scores .pts{text-align:right}
+.small{font-size:12px;color:var(--muted);margin:10px 0 0}
+#log{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14px;color:var(--muted)}
+#log li:first-child{color:var(--cream)}
+
+/* tips */
+.tips{margin-top:30px}
+.tips h2{font-size:30px;color:var(--marigold);margin-bottom:4px}
+.tips > p{color:var(--muted);margin:0 0 18px;max-width:62ch}
+.tip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.tip-group{background:var(--panel);border:1px solid var(--panel-line);border-radius:16px;padding:18px 20px}
+.tip-group h3{margin:0 0 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-weight:600}
+.tip-group ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.tip-group li{padding-left:16px;position:relative;max-width:62ch}
+.tip-group li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;transform:rotate(45deg);background:var(--vermilion)}
+.tip-group b{color:var(--cream)}
+.tip-group li{color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){
+  .card,.card .inner,#banner,.res-card{transition-duration:.01s !important}
+  .card.pick .face,.card.pick.down .back{animation:none;box-shadow:0 0 0 3px var(--marigold)}
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="brand"><h1>Dhumbal</h1><span class="dev" lang="ne">धुम्बल</span></div>
+      <p class="tag">Five cards each. Lowest total wins the round. Call <b>Show</b> when you think nobody can beat you.</p>
+    </div>
+    <button id="newBtn" class="ghost" hidden>Change players</button>
+  </header>
+
+  <section id="setup" class="setup">
+    <div class="setup-card">
+      <h2>How many at the table?</h2>
+      <div class="counts" id="counts"></div>
+      <div class="opts">
+        <label for="target">Out at score
+          <select id="target">
+            <option value="50">50 points (quick)</option>
+            <option value="100" selected>100 points</option>
+            <option value="200">200 points (long)</option>
+          </select>
+        </label>
+        <label for="limit">Show allowed when hand is
+          <select id="limit">
+            <option value="99">Any total</option>
+            <option value="10" selected>10 or less</option>
+            <option value="7">7 or less</option>
+          </select>
+        </label>
+      </div>
+      <p class="note">A wrong Show costs your hand total plus 25. The player who caught you scores 0.</p>
+      <button id="startBtn" class="primary">Deal the cards</button>
+    </div>
+    <div class="howto">
+      <h3>A turn, in order</h3>
+      <ol>
+        <li><b>Throw</b> one card, a set of the same rank (pair, triple, four), or a run of 3+ in one suit.</li>
+        <li><b>Take</b> one card: the top of the deck, or a card from the previous player's throw. From a run you may take only an end card.</li>
+        <li><b>Or call Show</b> at the very start of your turn if you think your total is the lowest.</li>
+      </ol>
+      <div class="values" aria-label="Card values">
+        <span>A<em>1</em></span><span>2–10<em>face</em></span><span>J<em>11</em></span><span>Q<em>12</em></span><span>K<em>13</em></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="game" hidden>
+    <div id="table" class="table">
+      <div id="cards"></div>
+      <div id="seats"></div>
+      <div class="pile-label" id="deckLbl">Deck</div>
+      <div class="pile-label" id="throwLbl">Last throw</div>
+      <div id="banner"></div>
+      <div id="result" hidden></div>
+    </div>
+    <div class="bar">
+      <div class="mine-total"><span class="lbl">Your hand</span><span id="myTotal" class="big">0</span><span class="lbl">pts</span></div>
+      <p id="status" aria-live="polite"></p>
+      <div class="btns">
+        <button id="hintBtn" class="ghost">Hint</button>
+        <button id="throwBtn" class="primary">Throw</button>
+        <button id="showBtn" class="show">Show</button>
+      </div>
+    </div>
+    <div class="lower">
+      <div class="panel"><h3>Scores</h3><ul id="scores"></ul><p class="small" id="targetNote"></p></div>
+      <div class="panel"><h3>Table talk</h3><ul id="log"></ul></div>
+    </div>
+  </section>
+
+  <section class="tips">
+    <h2>Tips to win</h2>
+    <p>Dhumbal rewards patience more than luck. Shed weight fast, take cheap cards when they're offered, and watch who is quietly getting low.</p>
+    <div class="tip-grid">
+      <div class="tip-group">
+        <h3>Throwing</h3>
+        <ul>
+          <li><b>Dump kings, queens and jacks first.</b> They cost 11 to 13 each, and every turn you hold one is a turn you can't Show.</li>
+          <li><b>Throw in groups.</b> A pair of 9s clears 18 points in one turn, a single only 9. Hold matching cards until you can throw them together.</li>
+          <li><b>Keep low pairs and near-runs.</b> A 4♥ and 5♥ only need a 3♥ or 6♥ to become a run you can drop in one throw.</li>
+        </ul>
+      </div>
+      <div class="tip-group">
+        <h3>Picking up</h3>
+        <ul>
+          <li><b>Take an ace, 2 or 3 from the throw</b> rather than drawing blind. The deck averages about 7 points a card.</li>
+          <li><b>Take a card that matches one you hold,</b> even a middling one. It turns two throws into one.</li>
+          <li><b>Don't feed your neighbour.</b> The next player can take from your throw, so avoid throwing low singles they'd love to grab.</li>
+        </ul>
+      </div>
+      <div class="tip-group">
+        <h3>Reading the table</h3>
+        <ul>
+          <li><b>Watch what others take.</b> Someone who picks a low card from the throw is getting close to a Show.</li>
+          <li><b>Count their cards.</b> A player down to 1 or 2 cards may be sitting on 3 points. Be careful calling Show against them.</li>
+          <li><b>Remember what was thrown.</b> If three 5s are gone, your lone 5 will never become a set.</li>
+        </ul>
+      </div>
+      <div class="tip-group">
+        <h3>Calling Show</h3>
+        <ul>
+          <li><b>5 or less is usually safe;</b> 8 to 10 is a gamble, especially with four or more opponents.</li>
+          <li><b>Call before others catch up.</b> If everyone still holds 4 or 5 cards, a total of 7 often wins.</li>
+          <li><b>Near elimination, play safe.</b> A caught Show adds 25 on top of your hand and can knock you out in one round.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const SUITS = ['♠','♥','♦','♣'];
+const BOT_NAMES = ['Bishal','Sita','Hari','Maya','Pasang'];
+const PENALTY = 25;
+const rankOf = id => id % 13 + 1;
+const suitOf = id => Math.floor(id / 13);
+const LBL = r => ({1:'A',11:'J',12:'Q',13:'K'})[r] || String(r);
+const isRed = id => suitOf(id) === 1 || suitOf(id) === 2;
+const cardText = id => LBL(rankOf(id)) + SUITS[suitOf(id)];
+const cardsText = ids => ids.map(cardText).join(' ');
+const sum = h => h.reduce((a, i) => a + rankOf(i), 0);
+const byRank = (a, b) => rankOf(a) - rankOf(b) || suitOf(a) - suitOf(b);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const jit = n => { const x = Math.sin(n * 91.7 + 3.1) * 10000; return (x - Math.floor(x)) * 2 - 1; };
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+/* ---------- rules ---------- */
+function isRun(ids){
+  if (ids.length < 3) return false;
+  const s = suitOf(ids[0]);
+  if (!ids.every(i => suitOf(i) === s)) return false;
+  const r = ids.map(rankOf).sort((a, b) => a - b);
+  for (let i = 1; i < r.length; i++) if (r[i] !== r[i-1] + 1) return false;
+  return true;
+}
+const isSet = ids => ids.length >= 1 && ids.every(i => rankOf(i) === rankOf(ids[0]));
+const isValid = ids => ids.length > 0 && (isSet(ids) || isRun(ids));
+function combos(arr, k){ const out = []; const rec = (s, acc) => { if (acc.length === k){ out.push([...acc]); return; } for (let i = s; i < arr.length; i++){ acc.push(arr[i]); rec(i + 1, acc); acc.pop(); } }; rec(0, []); return out; }
+function allGroups(h){
+  const g = h.map(i => [i]);
+  const ranks = {};
+  h.forEach(i => (ranks[rankOf(i)] = ranks[rankOf(i)] || []).push(i));
+  Object.values(ranks).forEach(list => { for (let k = 2; k <= list.length; k++) g.push(...combos(list, k)); });
+  for (let s = 0; s < 4; s++){
+    const cs = h.filter(i => suitOf(i) === s).sort(byRank);
+    for (let a = 0; a < cs.length; a++) for (let b = a + 2; b < cs.length; b++){ const seg = cs.slice(a, b + 1); if (isRun(seg)) g.push(seg); }
+  }
+  return g;
+}
+const pickableOf = (last, run) => !last.length ? [] : run ? [last[0], last[last.length - 1]] : [...last];
+
+/* ---------- bot brain ---------- */
+function potential(h){
+  let b = 0; const cnt = {};
+  h.forEach(i => cnt[rankOf(i)] = (cnt[rankOf(i)] || 0) + 1);
+  for (const r in cnt) if (cnt[r] >= 2) b += (cnt[r] - 1) * Math.min(+r, 10) * 0.35;
+  for (const a of h) for (const c of h) if (a < c && suitOf(a) === suitOf(c) && Math.abs(rankOf(a) - rankOf(c)) === 1) b += 1;
+  return b;
+}
+function evalPick(rem, last, run){
+  let best = { pick: 'deck', score: sum(rem) + 6.5 - potential(rem) * 0.6 };
+  for (const c of pickableOf(last, run)){
+    const h = [...rem, c]; const s = sum(h) - potential(h);
+    if (s < best.score) best = { pick: c, score: s };
+  }
+  return best;
+}
+function bestMove(hand, last, run){
+  let best = null;
+  for (const g of allGroups(hand)){
+    const rem = hand.filter(i => !g.includes(i));
+    const e = evalPick(rem, last, run);
+    if (!best || e.score < best.score - 0.01 || (Math.abs(e.score - best.score) < 0.01 && g.length > best.group.length))
+      best = { group: g, pick: e.pick, score: e.score };
+  }
+  return best;
+}
+function botWantsShow(pi){
+  const p = G.players[pi], t = sum(p.hand);
+  if (t > G.limit) return false;
+  const opp = G.players.filter((o, i) => i !== pi && !o.out);
+  const minCards = Math.min(...opp.map(o => o.hand.length));
+  let risk = p.risk;
+  if (minCards <= 2) risk -= 2;
+  if (minCards >= 4) risk += 2;
+  return t <= Math.max(2, risk);
+}
+
+/* ---------- state ---------- */
+const G = { players: [], deck: [], discard: [], last: [], lastRun: false, pending: [], pendingRun: false,
+  turn: 0, phase: 'idle', reveal: false, wiggle: false, sel: new Set(), token: 0, round: 0, target: 100, limit: 10, n: 4, log: [] };
+
+/* ---------- card elements ---------- */
+const table = $('#table'), layer = $('#cards'), seatsEl = $('#seats');
+const els = [];
+for (let id = 0; id < 52; id++){
+  const r = rankOf(id), s = SUITS[suitOf(id)], l = LBL(r);
+  const center = r > 10 ? `<span class="court">${l}<small>${r}</small></span>` : `<span>${s}</span>`;
+  const d = document.createElement('div');
+  d.className = 'card down';
+  d.dataset.id = id;
+  d.setAttribute('aria-label', cardText(id));
+  d.innerHTML = `<div class="inner"><div class="face ${isRed(id) ? 'red' : ''}"><div class="corner">${l}<br>${s}</div><div class="pip">${center}</div><div class="corner br">${l}<br>${s}</div></div><div class="back"></div></div>`;
+  layer.appendChild(d); els.push(d);
+}
+
+let CW = 70, CH = 98, W = 0, H = 0;
+function measure(){
+  W = table.clientWidth; H = table.clientHeight;
+  CW = Math.round(Math.max(42, Math.min(78, W / 8.2)));
+  CH = Math.round(CW * 1.4);
+  table.style.setProperty('--cw', CW + 'px');
+  table.style.setProperty('--ch', CH + 'px');
+}
+function pos(id, cx, cy, rot, sc, z, down, cls){
+  const el = els[id];
+  el.style.transform = `translate(${(cx - CW/2).toFixed(1)}px,${(cy - CH/2).toFixed(1)}px) rotate(${rot.toFixed(1)}deg) scale(${sc})`;
+  el.style.zIndex = z;
+  el.classList.toggle('down', down);
+  if (cls) cls.forEach(c => el.classList.add(c));
+}
+function seatPos(pi){
+  const k = G.players.length - 1;
+  const t = k === 1 ? 0.5 : (pi - 1) / (k - 1);
+  const s = 0.58;
+  return { x: W * (0.13 + 0.74 * t), y: 14 + CH * s / 2 + (1 - Math.sin(Math.PI * (0.12 + 0.76 * t))) * H * 0.15, s };
+}
+
+function layout(){
+  if (!W || $('#game').hidden) measure();
+  measure();
+  els.forEach(el => { el.classList.remove('sel','pick','mine'); el.removeAttribute('tabindex'); el.removeAttribute('role'); });
+  const myTurn = G.turn === 0 && !G.players[0]?.out;
+  const drawing = myTurn && G.phase === 'draw';
+
+  // deck
+  const dx = W / 2 - CW * 0.85, dy = H * 0.47;
+  G.deck.forEach((id, i) => {
+    const o = Math.min(i, 12) * 0.35;
+    let x = dx - o, y = dy - o, r = 0;
+    if (G.wiggle){ x += (Math.random() - .5) * CW * .7; y += (Math.random() - .5) * CW * .3; r = (Math.random() - .5) * 24; }
+    pos(id, x, y, r, 1, 10 + i, true, drawing && i === G.deck.length - 1 ? ['pick'] : null);
+  });
+  // discard
+  const px = W / 2 + CW * 0.75, py = dy;
+  G.discard.forEach((id, i) => pos(id, px + jit(id) * 4, py + jit(id + 7) * 4, jit(id + 3) * 10, 1, 100 + i, false));
+  const pickable = drawing ? pickableOf(G.last, G.lastRun) : [];
+  const fan = (ids, cx, cy, z, step) => ids.forEach((id, i) => {
+    const off = (i - (ids.length - 1) / 2);
+    pos(id, cx + off * step, cy, off * 4, 1, z + i, false, pickable.includes(id) ? ['pick'] : null);
+  });
+  fan(G.last, px, py - CH * 0.06, 200, CW * 0.34);
+  fan(G.pending, px + CW * 0.18, py + CH * 0.3, 300, CW * 0.34);
+
+  $('#deckLbl').style.left = dx + 'px'; $('#deckLbl').style.top = (dy + CH / 2 + 8) + 'px';
+  $('#throwLbl').style.left = px + 'px'; $('#throwLbl').style.top = (py - CH * 0.06 - CH / 2 - 20) + 'px';
+  $('#throwLbl').textContent = drawing ? 'Take one' : 'Last throw';
+
+  // hands
+  G.players.forEach((p, pi) => {
+    if (p.human){
+      const h = [...p.hand].sort(byRank), n = h.length;
+      const step = n > 1 ? Math.min(CW * 0.82, (W - 140 - CW) / (n - 1)) : 0;
+      h.forEach((id, i) => {
+        const off = i - (n - 1) / 2;
+        let cy = H - CH / 2 - 14 + off * off * 1.6;
+        const sel = G.sel.has(id);
+        if (sel) cy -= CH * 0.22;
+        pos(id, W / 2 + off * step + 30, cy, off * 3.5, 1, 500 + i, false, sel ? ['sel'] : null);
+        if (myTurn && G.phase === 'throw'){ els[id].classList.add('mine'); els[id].tabIndex = 0; els[id].setAttribute('role','button'); }
+      });
+    } else {
+      const sp = seatPos(pi), h = G.reveal ? [...p.hand].sort(byRank) : p.hand, n = h.length;
+      const sc = G.reveal ? 0.66 : sp.s, step = CW * (G.reveal ? 0.46 : 0.24);
+      h.forEach((id, i) => {
+        const off = i - (n - 1) / 2;
+        pos(id, sp.x + off * step, sp.y + Math.abs(off) * 2, off * (G.reveal ? 3 : 7), sc, 400 + pi * 10 + i, !G.reveal);
+      });
+    }
+  });
+  pickable.forEach(id => { els[id].tabIndex = 0; els[id].setAttribute('role','button'); });
+  if (drawing && G.deck.length){ const t = G.deck[G.deck.length - 1]; els[t].tabIndex = 0; els[t].setAttribute('role','button'); }
+  updateSeats();
+  updateUI();
+}
+
+function updateSeats(){
+  G.players.forEach((p, pi) => {
+    const el = seatsEl.children[pi]; if (!el) return;
+    const tot = G.reveal && !p.out ? `<span class="tot">${sum(p.hand)}</span>` : '';
+    el.className = 'seat' + (p.human ? ' me' : '') + (pi === G.turn && ['throw','draw','bot','wait'].includes(G.phase) ? ' turn' : '') + (p.out ? ' out' : '');
+    el.innerHTML = `<b>${p.name}${tot}</b><span class="sc">${p.out ? 'out' : p.score + ' pts' + (p.human ? '' : ' · ' + p.hand.length + ' cards')}</span>`;
+    if (p.human){ el.style.left = '10px'; el.style.top = (H - 52) + 'px'; }
+    else { const sp = seatPos(pi); el.style.left = sp.x + 'px'; el.style.top = (sp.y + CH * (G.reveal ? .66 : sp.s) / 2 + 8) + 'px'; }
+  });
+}
+
+function updateUI(){
+  const me = G.players[0]; if (!me) return;
+  $('#myTotal').textContent = sum(me.hand);
+  const myThrow = G.turn === 0 && G.phase === 'throw';
+  const sel = [...G.sel];
+  const tb = $('#throwBtn');
+  tb.disabled = !myThrow || !isValid(sel);
+  tb.textContent = !myThrow ? 'Throw' : !sel.length ? 'Select cards' : isValid(sel) ? `Throw ${cardsText([...sel].sort(byRank))}` : 'Not a valid throw';
+  $('#showBtn').disabled = !myThrow || sum(me.hand) > G.limit;
+  $('#showBtn').title = sum(me.hand) > G.limit ? `Show unlocks at ${G.limit} or less` : 'Call Show';
+  $('#hintBtn').disabled = !(G.turn === 0 && (G.phase === 'throw' || G.phase === 'draw'));
+  $('#scores').innerHTML = G.players.map((p, i) => `<li class="${i === G.turn && G.phase !== 'idle' ? 'turn' : ''} ${p.out ? 'out' : ''}"><span class="nm">${p.name}</span><span class="track"><i style="width:${Math.min(100, p.score / G.target * 100)}%"></i></span><span class="pts">${p.score}</span></li>`).join('');
+  $('#targetNote').textContent = `Out at ${G.target}. Show allowed at ${G.limit >= 99 ? 'any total' : G.limit + ' or less'}. Round ${G.round}.`;
+}
+const setStatus = t => { $('#status').textContent = t; };
+function addLog(t){ G.log.unshift(t); G.log = G.log.slice(0, 7); $('#log').innerHTML = G.log.map(l => `<li>${l}</li>`).join(''); }
+let bannerTimer;
+function banner(t, ms = 1100){ const b = $('#banner'); b.textContent = t; b.classList.add('on'); clearTimeout(bannerTimer); bannerTimer = setTimeout(() => b.classList.remove('on'), ms); }
+
+/* ---------- flow ---------- */
+function ensureDeck(){
+  if (!G.deck.length && G.discard.length){ G.deck = shuffle(G.discard); G.discard = []; addLog('Deck ran out. The old throws were shuffled into a new deck.'); }
+}
+function doThrow(pi, ids){
+  const p = G.players[pi];
+  p.hand = p.hand.filter(i => !ids.includes(i));
+  G.pending = [...ids].sort(byRank);
+  G.pendingRun = isRun(ids);
+}
+function drawFrom(pi, src){
+  const p = G.players[pi]; let card;
+  if (src === 'deck'){ ensureDeck(); card = G.deck.pop(); }
+  else { card = src; G.last = G.last.filter(x => x !== card); }
+  p.hand.push(card);
+  G.discard.push(...G.last);
+  const thrown = G.pending;
+  G.last = G.pending; G.lastRun = G.pendingRun; G.pending = [];
+  ensureDeck();
+  const who = p.human ? 'You' : p.name;
+  const took = src === 'deck' ? (p.human ? `drew ${cardText(card)}` : 'drew from the deck') : `took ${cardText(card)} from the throw`;
+  addLog(`${who} threw ${cardsText(thrown)} and ${took}.`);
+}
+function nextTurn(){
+  let i = G.turn;
+  do { i = (i + 1) % G.players.length; } while (G.players[i].out);
+  G.turn = i; beginTurn();
+}
+function beginTurn(){
+  const p = G.players[G.turn];
+  if (p.human){
+    G.phase = 'throw';
+    const t = sum(p.hand);
+    setStatus(t <= G.limit
+      ? `Your turn. You hold ${t}. Call Show if you think you're lowest, or throw.`
+      : 'Your turn. Tap a card, a set, or a run of 3+ in one suit, then throw.');
+    layout();
+  } else {
+    G.phase = 'bot'; setStatus(`${p.name} is thinking…`); layout();
+    botTurn(G.token);
+  }
+}
+async function botTurn(tok){
+  await sleep(750); if (tok !== G.token) return;
+  const pi = G.turn, p = G.players[pi];
+  if (botWantsShow(pi)) return callShow(pi);
+  const m = bestMove(p.hand, G.last, G.lastRun);
+  doThrow(pi, m.group); setStatus(`${p.name} throws ${cardsText(G.pending)}.`); layout();
+  await sleep(700); if (tok !== G.token) return;
+  const e = evalPick(p.hand, G.last, G.lastRun);
+  drawFrom(pi, e.pick); setStatus(G.log[0]); layout();
+  await sleep(500); if (tok !== G.token) return;
+  nextTurn();
+}
+async function humanDraw(src){
+  if (G.phase !== 'draw' || G.turn !== 0) return;
+  G.phase = 'wait';
+  const tok = G.token;
+  drawFrom(0, src); setStatus(G.log[0]); layout();
+  await sleep(450); if (tok !== G.token) return;
+  nextTurn();
+}
+
+async function startRound(starter){
+  const tok = ++G.token;
+  hideResult();
+  G.round++; G.phase = 'deal'; G.reveal = false; G.sel.clear();
+  G.players.forEach(p => p.hand = []);
+  G.discard = []; G.last = []; G.pending = [];
+  G.deck = shuffle([...Array(52).keys()]);
+  setStatus(`Round ${G.round}. Shuffling…`);
+  layout(); await sleep(600); if (tok !== G.token) return;
+  for (let k = 0; k < 2; k++){ G.wiggle = true; layout(); await sleep(200); G.wiggle = false; layout(); await sleep(200); if (tok !== G.token) return; }
+  banner(`Round ${G.round}`);
+  const order = []; let i = starter;
+  for (let c = 0; c < G.players.length; c++){ if (!G.players[i].out) order.push(i); i = (i + 1) % G.players.length; }
+  setStatus('Dealing five cards each…');
+  for (let r = 0; r < 5; r++) for (const pi of order){
+    G.players[pi].hand.push(G.deck.pop()); layout();
+    await sleep(90); if (tok !== G.token) return;
+  }
+  await sleep(300); if (tok !== G.token) return;
+  G.last = [G.deck.pop()]; G.lastRun = false; layout();
+  await sleep(500); if (tok !== G.token) return;
+  G.turn = starter;
+  addLog(`Round ${G.round}: ${starter === 0 ? 'you start' : G.players[starter].name + ' starts'}.`);
+  beginTurn();
+}
+
+async function callShow(pi){
+  const tok = G.token;
+  G.phase = 'show'; G.sel.clear();
+  const caller = G.players[pi];
+  banner(`${caller.human ? 'You call' : caller.name + ' calls'} Show!`, 1500);
+  setStatus(`${caller.human ? 'You call' : caller.name + ' calls'} Show with ${sum(caller.hand)}.`);
+  layout(); await sleep(1000); if (tok !== G.token) return;
+  G.reveal = true; layout();
+  await sleep(1500); if (tok !== G.token) return;
+
+  const act = G.players.map((p, i) => ({ p, i })).filter(o => !o.p.out);
+  const ct = sum(caller.hand);
+  const others = act.filter(o => o.i !== pi);
+  const minO = Math.min(...others.map(o => sum(o.p.hand)));
+  const caught = minO <= ct;
+  const catcher = caught ? others.find(o => sum(o.p.hand) === minO) : null;
+  const rows = act.map(({ p, i }) => {
+    const t = sum(p.hand);
+    let pts;
+    if (!caught) pts = i === pi ? 0 : t;
+    else pts = i === pi ? t + PENALTY : (t === minO ? 0 : t);
+    p.score += pts;
+    return { p, i, t, pts, hand: [...p.hand].sort(byRank) };
+  });
+  const winIdx = caught ? catcher.i : pi;
+  rows.forEach(r => { if (r.p.score >= G.target) { r.p.out = true; r.justOut = true; } });
+  const nm = (p, verbYou, verbThey) => p.human ? `You ${verbYou}` : `${p.name} ${verbThey}`;
+  const headline = caught
+    ? `${nm(caller, 'got', 'got')} caught. ${catcher.p.human ? 'You' : catcher.p.name} had ${minO} against ${ct}.`
+    : `${nm(caller, 'win', 'wins')} the round with ${ct}.`;
+  addLog(headline);
+  updateUI(); updateSeats();
+  const me = G.players[0];
+  const alive = G.players.filter(p => !p.out);
+  const over = me.out || alive.length <= 1;
+  showResult(rows, headline, caught, winIdx, over);
+}
+
+function hideResult(){ const r = $('#result'); r.classList.remove('on'); r.hidden = true; }
+function showResult(rows, headline, caught, winIdx, over){
+  const r = $('#result');
+  const body = rows.map(x => `<tr class="${x.i === winIdx ? 'win' : ''}"><td>${x.p.name}${x.justOut ? '<span class="tag-out">out</span>' : ''}<span class="hand">${cardsText(x.hand) || '—'}</span></td><td class="num">${x.t}</td><td class="num">+${x.pts}${x.i !== winIdx && caught && x.pts > x.t ? ' <span class="hand">incl. 25</span>' : ''}</td><td class="num">${x.p.score}</td></tr>`).join('');
+  let actions, title = headline, eyebrow = `Round ${G.round}`;
+  if (over){
+    const ranked = [...G.players].sort((a, b) => (a.out - b.out) || (a.score - b.score));
+    const champ = ranked[0];
+    eyebrow = 'Game over';
+    title = champ.human ? 'You win the table!' : (G.players[0].out ? `You're out. ${champ.name} leads the table.` : `${champ.name} wins the table.`);
+    title += ` <span class="hand" style="display:block;font-family:var(--font-body);font-size:14px;margin-top:6px">${headline}</span>`;
+    actions = `<button id="againBtn" class="primary">Play again</button><button id="changeBtn" class="ghost">Change players</button>`;
+  } else {
+    actions = `<button id="nextBtn" class="primary">Next round</button>`;
+  }
+  r.innerHTML = `<div class="res-card" role="dialog" aria-label="Round result"><p class="eyebrow">${eyebrow}</p><h2>${title}</h2>
+    <table class="res"><thead><tr><th>Player</th><th class="num">Hand</th><th class="num">Round</th><th class="num">Total</th></tr></thead><tbody>${body}</tbody></table>
+    <div class="res-actions">${actions}</div></div>`;
+  r.hidden = false;
+  requestAnimationFrame(() => requestAnimationFrame(() => r.classList.add('on')));
+  G.phase = 'result';
+  if (over){
+    $('#againBtn').onclick = () => startGame(G.n);
+    $('#changeBtn').onclick = toSetup;
+    $('#againBtn').focus();
+  } else {
+    $('#nextBtn').onclick = () => startRound(winIdx);
+    $('#nextBtn').focus();
+  }
+}
+
+/* ---------- input ---------- */
+function onCard(el){
+  const id = +el.dataset.id, me = G.players[0];
+  if (G.turn !== 0) return;
+  if (G.phase === 'throw' && me.hand.includes(id)){ G.sel.has(id) ? G.sel.delete(id) : G.sel.add(id); layout(); return; }
+  if (G.phase === 'draw'){
+    if (G.deck.includes(id)) return humanDraw('deck');
+    if (pickableOf(G.last, G.lastRun).includes(id)) return humanDraw(id);
+  }
+}
+layer.addEventListener('click', e => { const el = e.target.closest('.card'); if (el) onCard(el); });
+layer.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('card')){ e.preventDefault(); onCard(e.target); } });
+$('#throwBtn').onclick = () => {
+  if (G.phase !== 'throw' || G.turn !== 0) return;
+  const ids = [...G.sel]; if (!isValid(ids)) return;
+  G.sel.clear(); doThrow(0, ids); G.phase = 'draw';
+  setStatus(G.lastRun ? 'Now take one card: the deck, or an end card of the glowing run.' : 'Now take one card: the top of the deck, or a glowing card from the last throw.');
+  layout();
+};
+$('#showBtn').onclick = () => { if (G.phase === 'throw' && G.turn === 0 && sum(G.players[0].hand) <= G.limit) callShow(0); };
+$('#hintBtn').onclick = () => {
+  const me = G.players[0];
+  if (G.turn !== 0) return;
+  if (G.phase === 'throw'){
+    const t = sum(me.hand);
+    const opp = G.players.filter(p => !p.human && !p.out);
+    const minCards = Math.min(...opp.map(o => o.hand.length));
+    if (t <= G.limit && (t <= 4 || (t <= 7 && minCards >= 4))){
+      setStatus(`Hint: you hold ${t} and opponents still have ${minCards}+ cards. This is a strong moment to call Show.`);
+      return;
+    }
+    const m = bestMove(me.hand, G.last, G.lastRun);
+    G.sel = new Set(m.group); layout();
+    const after = m.pick === 'deck' ? 'then draw from the deck' : `then take ${cardText(m.pick)} from the last throw`;
+    setStatus(`Hint: throw ${cardsText([...m.group].sort(byRank))} (${sum(m.group)} pts), ${after}.`);
+  } else if (G.phase === 'draw'){
+    const e = evalPick(me.hand, G.last, G.lastRun);
+    setStatus(e.pick === 'deck' ? 'Hint: nothing in the throw helps you. Draw from the deck.' : `Hint: take ${cardText(e.pick)}. It's cheap or matches what you hold.`);
+  }
+};
+
+/* ---------- setup ---------- */
+const countsEl = $('#counts');
+for (let n = 2; n <= 6; n++){
+  const b = document.createElement('button');
+  b.className = 'count'; b.dataset.n = n; b.type = 'button';
+  b.setAttribute('aria-pressed', n === 4 ? 'true' : 'false');
+  b.innerHTML = `<span class="n">${n}</span><span class="dots">${'<i></i>'.repeat(n)}</span><span class="sub">You + ${n - 1} bot${n > 2 ? 's' : ''}</span>`;
+  b.onclick = () => { G.n = n; countsEl.querySelectorAll('.count').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); };
+  countsEl.appendChild(b);
+}
+function startGame(n){
+  G.n = n;
+  G.target = +$('#target').value; G.limit = +$('#limit').value;
+  const bots = shuffle([...BOT_NAMES]).slice(0, n - 1);
+  G.players = [{ name: 'You', human: true, hand: [], score: 0, out: false }]
+    .concat(bots.map(name => ({ name, human: false, hand: [], score: 0, out: false, risk: 3 + Math.floor(Math.random() * 3) })));
+  seatsEl.innerHTML = G.players.map(() => '<div class="seat"></div>').join('');
+  G.round = 0; G.log = []; $('#log').innerHTML = '';
+  $('#setup').hidden = true; $('#game').hidden = false; $('#newBtn').hidden = false;
+  els.forEach(el => { el.style.transition = 'none'; });
+  measure();
+  G.deck = [...Array(52).keys()]; G.discard = []; G.last = []; G.pending = [];
+  layout();
+  requestAnimationFrame(() => { els.forEach(el => el.style.transition = ''); startRound(Math.floor(Math.random() * n)); });
+}
+function toSetup(){
+  G.token++; G.phase = 'idle'; hideResult();
+  $('#game').hidden = true; $('#setup').hidden = false; $('#newBtn').hidden = true;
+}
+$('#startBtn').onclick = () => startGame(G.n);
+$('#newBtn').onclick = toSetup;
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (!$('#game').hidden) layout(); }, 120); });
+})();
+</script>
+
+</body></html>
