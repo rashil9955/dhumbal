@@ -1039,6 +1039,8 @@ function fb(){
   }
   return fbP;
 }
+// Ignore anything that isn't valid game data rather than crashing the screen.
+const parseJSON = v => { if (v === null) return null; try { const o = JSON.parse(v); return o && typeof o === 'object' ? o : undefined; } catch { return undefined; } };
 const genCode = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)]).join('');
 const shareUrl = code => location.origin + location.pathname + '?room=' + code;
 function onlineMsg(t, err){ const m = $('#onlineMsg'); m.textContent = t || ''; m.classList.toggle('err', !!err); }
@@ -1083,7 +1085,7 @@ async function enterRoom(db, uid, code, name){
   if (!isHost && !players[uid]){
     if (meta.started){
       const st = (await ref.child('state').get()).val();
-      const seated = st && JSON.parse(st).players.some(p => p.uid === uid);
+      const seated = parseJSON(st)?.players?.some(p => p.uid === uid);
       if (!seated) throw new Error('That table is in the middle of a game. Ask the host to go back to the lobby, then join.');
     } else if (Object.keys(players).length >= 6) throw new Error('That table is full (6 players).');
   }
@@ -1108,8 +1110,8 @@ async function enterRoom(db, uid, code, name){
     sub(ref.child('actions'), 'child_added', s => { const a = s.val(); s.ref.remove(); handleAction(a && a.uid, a); });
     if (G) resume();
   } else {
-    sub(ref.child('state'), 'value', s => { const v = s.val(); VIEW = v ? JSON.parse(v) : null; awaiting = false; localStatus = null; scheduleRender(); });
-    sub(ref.child('hands/' + uid), 'value', s => { const v = s.val(); MYHAND = v ? JSON.parse(v) : []; scheduleRender(); });
+    sub(ref.child('state'), 'value', s => { const v = parseJSON(s.val()); if (v === undefined) return; VIEW = v; awaiting = false; localStatus = null; scheduleRender(); });
+    sub(ref.child('hands/' + uid), 'value', s => { const v = parseJSON(s.val()); if (v === undefined) return; MYHAND = Array.isArray(v) ? v : []; scheduleRender(); });
   }
   store.set('dhumbal.name', name);
   history.replaceState(null, '', '?room=' + code);
